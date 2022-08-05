@@ -2,17 +2,22 @@ module.exports = {
   roots: [
     '<rootDir>/src'
   ],
-  collectCoverage: false,
-  collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
-  coverageDirectory: 'coverage',
-  coveragePathIgnorePatterns: [
-    '/node_modules/'
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/main/**',
+    '!<rootDir>/src/**/index.ts',
+    '!<rootDir>/src/**/*.protocols.ts'
   ],
-  coverageProvider: 'v8',
+  coverageDirectory: 'coverage',
+  coverageProvider: 'babel',
   // testEnvironment: "jest-environment-node",
   testEnvironment: 'node',
   transform: {
     '.+\\.ts$': 'ts-jest'
+  },
+  moduleNameMapper: {
+    '@/tests/(.*)': '<rootDir>/tests/$1',
+    '@/(.*)': '<rootDir>/src/$1'
   }
 
   // A list of reporter names that Jest uses when writing coverage reports
