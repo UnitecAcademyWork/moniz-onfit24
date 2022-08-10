@@ -80,4 +80,20 @@ describe('DbAddAccount', () => {
       password: 'hashed_password'
     })
   })
+
+  test('should return an account on success', async () => {
+    const { sut } = makeSut()
+    const accountData = {
+      name: 'valid_name',
+      email: 'valid_email',
+      password: 'valid_password'
+    }
+    const account = await sut.add(accountData)
+    expect(account).toEqual({
+      id: 'valid_id',
+      email: 'valid_email',
+      name: 'valid_name',
+      password: 'hashed_password'
+    })
+  })
 })
