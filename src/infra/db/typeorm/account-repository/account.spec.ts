@@ -6,8 +6,10 @@ describe('Account Repository', () => {
     await TypeormHelper.create()
   })
   afterAll(async () => {
-    await TypeormHelper.clear()
     await TypeormHelper.close()
+  })
+  beforeEach(async () => {
+    await TypeormHelper.clear()
   })
 
   const makeSut = (): AccountRepository => {
