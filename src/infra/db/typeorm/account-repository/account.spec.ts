@@ -10,8 +10,12 @@ describe('Account Repository', () => {
     await TypeormHelper.close()
   })
 
+  const makeSut = (): AccountRepository => {
+    return new AccountRepository()
+  }
+
   test('should return an account on success', async () => {
-    const sut = new AccountRepository()
+    const sut = makeSut()
     const account = await sut.add({
       name: 'any_name',
       email: 'any_email@mail.com',
