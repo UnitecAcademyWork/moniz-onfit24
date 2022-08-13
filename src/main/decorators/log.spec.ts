@@ -1,5 +1,16 @@
+import { serverError } from '../../presentation/helpers/http-helper'
 import { Controller, HttpRequest, HttpResponse } from '../../presentation/protocols'
 import { LogControllerDecorator } from './log'
+import { LogErrorRepository } from '../../data/protocols/log-error-repository'
+
+const makeLogErrorRepository = (): LogErrorRepository => {
+  class LogErrorRepositoryStub implements LogErrorRepositoryStub {
+    async log (stack: string): Promise<void> {
+      return await Promise.resolve()
+    }
+  }
+  return new LogErrorRepositoryStub()
+}
 
 const makeController = (): Controller => {
   class ControllerStub implements Controller {
@@ -19,12 +30,14 @@ const makeController = (): Controller => {
 interface SutTypes {
   sut: LogControllerDecorator
   controllerStub: Controller
+  logErrorRepositoryStub: LogErrorRepository
 }
 
 const makeSut = (): SutTypes => {
+  const logErrorRepositoryStub = makeLogErrorRepository()
   const controllerStub = makeController()
-  const sut = new LogControllerDecorator(controllerStub)
-  return { sut, controllerStub }
+  const sut = new LogControllerDecorator(controllerStub, logErrorRepositoryStub)
+  return { sut, controllerStub, logErrorRepositoryStub }
 }
 
 describe('LogController Decorator', () => {
@@ -60,5 +73,24 @@ describe('LogController Decorator', () => {
         name: 'lamboSama'
       }
     })
+  })
+
+  test('should call LogErrorRepository witch correct error if controller returns a server error', async () => {
+    const { sut, controllerStub, logErrorRepositoryStub } = makeSut()
+    const fakeError = new Error()
+    fakeError.stack = 'any_stack'
+    const error = serverError(fakeError)
+    const logSpy = jest.spyOn(logErrorRepositoryStub, 'log')
+    jest.spyOn(controllerStub, 'handle').mockImplementation(async () => await Promise.resolve(error))
+    const httpRequest: HttpRequest = {
+      body: {
+        email: 'any_mail@email.com',
+        name: 'any_name',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
+    }
+    await sut.handle(httpRequest)
+    expect(logSpy).toHaveBeenCalledWith('any_stack')
   })
 })
