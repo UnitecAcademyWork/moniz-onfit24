@@ -6,6 +6,7 @@ import { AccountRepository } from '../../infra/db/typeorm/account-repository/acc
 import { LogRepository } from '../../infra/db/typeorm/log-repository/log'
 import { Controller } from '../../presentation/protocols'
 import { LogControllerDecorator } from '../decorators/log'
+import { makeSignUpValidation } from './signup-validation'
 
 export const makeSignUpController = (): Controller => {
   const salt = 12
@@ -13,7 +14,7 @@ export const makeSignUpController = (): Controller => {
   const bcryptAdapter = new BcryptAdapter(salt)
   const accountRepository = new AccountRepository()
   const dbAddAccount = new DbAddAccount(bcryptAdapter, accountRepository)
-  const signUpController = new SignUpController(emailValidatorAdapter, dbAddAccount)
+  const signUpController = new SignUpController(emailValidatorAdapter, dbAddAccount, makeSignUpValidation())
   const logRepository = new LogRepository()
   return new LogControllerDecorator(signUpController, logRepository)
 }
