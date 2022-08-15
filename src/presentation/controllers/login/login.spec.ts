@@ -3,6 +3,7 @@ import { badRequest, serverError } from '../../helpers/http-helper'
 import { InvalidParamError, MissingParamError } from '../../errors'
 import { EmailValidator } from '../../protocols/email-validator'
 import { HttpRequest } from '../../protocols'
+import { Authentication } from '../../../domain/usecases/authentication'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -10,6 +11,15 @@ const makeFakeRequest = (): HttpRequest => ({
     password: 'any_password'
   }
 })
+
+const makeAuthenticationStub = (): Authentication => {
+  class AuthenticationStub implements Authentication {
+    async auth (email: string, password: string): Promise<string> {
+      return await Promise.resolve('any_token')
+    }
+  }
+  return new AuthenticationStub()
+}
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
@@ -23,12 +33,14 @@ const makeEmailValidator = (): EmailValidator => {
 interface sutTypes {
   sut: LoginController
   emailValidatorStub: EmailValidator
+  authenticationStub: Authentication
 }
 
 const makeSut = (): sutTypes => {
   const emailValidatorStub = makeEmailValidator()
-  const sut = new LoginController(emailValidatorStub)
-  return { sut, emailValidatorStub }
+  const authenticationStub = makeAuthenticationStub()
+  const sut = new LoginController(emailValidatorStub, authenticationStub)
+  return { sut, emailValidatorStub, authenticationStub }
 }
 
 describe('Login Controller', () => {
@@ -73,5 +85,12 @@ describe('Login Controller', () => {
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => { throw new Error() })
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should call authentication with correct values', async () => {
+    const { sut, authenticationStub } = makeSut()
+    const authSpy = jest.spyOn(authenticationStub, 'auth')
+    await sut.handle(makeFakeRequest())
+    expect(authSpy).toHaveBeenCalledWith('any_email@mail.com', 'any_password')
   })
 })
