@@ -1,6 +1,6 @@
 import { SignUpController } from '../../../presentation/controllers/signup/signup'
 import { DbAddAccount } from '../../../data/usecases/add-account/db-add-account'
-import { BcryptAdapter } from '../../../infra/cryptography/bcrypt-adpter'
+import { BcryptAdapter } from '../../../infra/cryptography/bcrypt-adapter/bcrypt-adpter'
 import { AccountRepository } from '../../../infra/db/typeorm/account-repository/account'
 import { LogRepository } from '../../../infra/db/typeorm/log-repository/log'
 import { Controller } from '../../../presentation/protocols'
