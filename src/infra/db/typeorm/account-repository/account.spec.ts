@@ -1,6 +1,7 @@
 import { AccountRepository } from './account'
 import { TypeormHelper } from '../typeorm-helper'
 import { AccountModel } from '../../../../domain/models/account'
+import { Account } from '../entities/account'
 
 describe('Account Repository', () => {
   beforeAll(async () => {
@@ -50,5 +51,14 @@ describe('Account Repository', () => {
     const sut = makeSut()
     const account = await sut.loadByEmail('any_email@mail.com')
     expect(account).toBeFalsy()
+  })
+
+  test('should update the account accessToken on updateAccessToken success', async () => {
+    const account = await makeAddAccount()
+    const sut = makeSut()
+    await sut.updateAccessToken(account.id, 'any_token')
+    const result = await Account.findOneBy({ id: account.id })
+    expect(result).toBeTruthy()
+    expect(result.accessToken).toBe('any_token')
   })
 })
