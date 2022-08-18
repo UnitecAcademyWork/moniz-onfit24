@@ -1,5 +1,6 @@
 import env from './config/env'
 import { TypeormHelper } from '../infra/db/typeorm/typeorm-helper'
+import 'reflect-metadata'
 
 TypeormHelper.create().then(async () => {
   const app = (await import('./config/app')).default

@@ -1,4 +1,4 @@
-import { ormConfig } from '../../../../ormconfig'
+import { ormConfig } from './ormconfig'
 
 export const TypeormHelper = {
   async create (): Promise<void> {
