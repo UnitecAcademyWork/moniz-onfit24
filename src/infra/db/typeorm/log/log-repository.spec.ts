@@ -1,6 +1,6 @@
 import { LogError } from '../entities/log-error'
 import { TypeormHelper } from '../typeorm-helper'
-import { LogRepository } from './log'
+import { LogRepository } from './log-repository'
 
 const makeSut = (): LogRepository => {
   return new LogRepository()
