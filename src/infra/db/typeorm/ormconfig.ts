@@ -1,6 +1,6 @@
 import path from 'path'
 import { DataSource } from 'typeorm'
-import env from '../../../main/config/env'
+import env from '@/main/config/env'
 
 export const ormConfig = new DataSource({
   name: env.name,

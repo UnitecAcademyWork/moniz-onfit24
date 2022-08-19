@@ -1,7 +1,7 @@
 import { AccountRepository } from './account-repository'
 import { TypeormHelper } from '../typeorm-helper'
-import { AccountModel } from '../../../../domain/models/account'
 import { Account } from '../entities/account'
+import { AccountModel } from '@/domain/models/account'
 
 describe('Account Repository', () => {
   beforeAll(async () => {
