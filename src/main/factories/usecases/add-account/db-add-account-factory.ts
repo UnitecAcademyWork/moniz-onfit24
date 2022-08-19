@@ -1,0 +1,11 @@
+import { DbAddAccount } from '../../../../data/usecases/add-account/db-add-account'
+import { AccountRepository } from '../../../../infra/db/typeorm/account/account-repository'
+import { BcryptAdapter } from '../../../../infra/cryptography/bcrypt-adapter/bcrypt-adpter'
+import { AddAccount } from '../../../../domain/usecases/add-account'
+
+export const makeDbAddAccount = (): AddAccount => {
+  const salt = 12
+  const bcryptAdapter = new BcryptAdapter(salt)
+  const accountRepository = new AccountRepository()
+  return new DbAddAccount(bcryptAdapter, accountRepository)
+}
