@@ -11,4 +11,5 @@
 1. ⛔️ Retorna erro 404 se a API não existir
 2. ✅ Retorna erro 400 se **name**, **description** e **icon** não forem fornecidos
 3. ⛔️ Retorna erro 403 se não for administrador
-4. ⛔️ Retorna erro 500 se der erro ao tentar criar um objectivo
+3. ✅ Retorna erro 403 se o objectivo inserido já existe
+4. ✅ Retorna erro 500 se der erro ao tentar criar um objectivo
