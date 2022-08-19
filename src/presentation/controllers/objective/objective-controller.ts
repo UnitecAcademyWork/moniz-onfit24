@@ -1,4 +1,5 @@
-import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
+import { ObjectiveInUseError } from '@/presentation/errors'
+import { badRequest, forbidden, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddObjective, Controller, HttpRequest, HttpResponse, Validation } from './objective-controller.protocols'
 
 export class ObjectiveController implements Controller {
@@ -11,7 +12,10 @@ export class ObjectiveController implements Controller {
         return badRequest(error)
       }
       const { name, icon, description } = httpRequest.body
-      await this.addObjective.add({ name, icon, description })
+      const objective = await this.addObjective.add({ name, icon, description })
+      if (!objective) {
+        return forbidden(new ObjectiveInUseError())
+      }
       return await Promise.resolve(null)
     } catch (error) {
       return serverError(error)
