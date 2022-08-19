@@ -1,7 +1,7 @@
 import { ObjectiveController } from './objective-controller'
 import { AddObjective, AddObjectiveModel, HttpRequest, ObjectiveModel, Validation } from './objective-controller.protocols'
-import { badRequest } from '@/presentation/helpers/http/http-helper'
-import { MissingParamError } from '../../errors'
+import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
+import { MissingParamError, ServerError } from '../../errors'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -75,5 +75,12 @@ describe('Objective Controller', () => {
       description: 'any_description',
       icon: 'any_icon'
     })
+  })
+
+  test('should return 500 if AddObjective throws', async () => {
+    const { sut, addObjectiveStub } = makeSut()
+    jest.spyOn(addObjectiveStub, 'add').mockImplementationOnce(async () => { return await Promise.reject(new Error()) })
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(serverError(new ServerError('')))
   })
 })
