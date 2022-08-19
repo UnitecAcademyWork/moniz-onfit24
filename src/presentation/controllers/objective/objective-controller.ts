@@ -1,5 +1,5 @@
 import { ObjectiveInUseError } from '@/presentation/errors'
-import { badRequest, forbidden, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddObjective, Controller, HttpRequest, HttpResponse, Validation } from './objective-controller.protocols'
 
 export class ObjectiveController implements Controller {
@@ -16,7 +16,7 @@ export class ObjectiveController implements Controller {
       if (!objective) {
         return forbidden(new ObjectiveInUseError())
       }
-      return await Promise.resolve(null)
+      return ok(objective)
     } catch (error) {
       return serverError(error)
     }
