@@ -1,5 +1,5 @@
 import { ObjectiveController } from './objective-controller'
-import { HttpRequest, Validation } from './objective-controller.protocols'
+import { AddObjective, AddObjectiveModel, HttpRequest, ObjectiveModel, Validation } from './objective-controller.protocols'
 import { badRequest } from '@/presentation/helpers/http/http-helper'
 import { MissingParamError } from '../../errors'
 
@@ -11,6 +11,13 @@ const makeFakeRequest = (): HttpRequest => ({
   }
 })
 
+const makeFakeObjective = (): ObjectiveModel => ({
+  id: 'valid_id',
+  name: 'valid_name',
+  description: 'valid_description',
+  icon: 'valid_icon'
+})
+
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
     validate (input: any): Error {
@@ -20,15 +27,27 @@ const makeValidation = (): Validation => {
   return new ValidationStub()
 }
 
+const makeAddObjective = (): AddObjective => {
+  class AddObjectiveStub implements AddObjective {
+    async add (objective: AddObjectiveModel): Promise<ObjectiveModel> {
+      const fakeObjective = makeFakeObjective()
+      return await Promise.resolve(fakeObjective)
+    }
+  }
+  return new AddObjectiveStub()
+}
+
 interface sutTypes {
   sut: ObjectiveController
   validationStub: Validation
+  addObjectiveStub: AddObjective
 }
 
 const makeSut = (): sutTypes => {
   const validationStub = makeValidation()
-  const sut = new ObjectiveController(validationStub)
-  return { sut, validationStub }
+  const addObjectiveStub = makeAddObjective()
+  const sut = new ObjectiveController(validationStub, addObjectiveStub)
+  return { sut, validationStub, addObjectiveStub }
 }
 
 describe('Objective Controller', () => {
@@ -45,5 +64,16 @@ describe('Objective Controller', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_field')))
+  })
+
+  test('should call AddObjective with correct values', async () => {
+    const { sut, addObjectiveStub } = makeSut()
+    const addSpy = jest.spyOn(addObjectiveStub, 'add')
+    await sut.handle(makeFakeRequest())
+    expect(addSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      description: 'any_description',
+      icon: 'any_icon'
+    })
   })
 })
