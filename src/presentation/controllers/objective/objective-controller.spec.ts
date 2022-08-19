@@ -1,6 +1,6 @@
 import { ObjectiveController } from './objective-controller'
 import { AddObjective, AddObjectiveModel, HttpRequest, ObjectiveModel, Validation } from './objective-controller.protocols'
-import { badRequest, forbidden, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { MissingParamError, ObjectiveInUseError, ServerError } from '../../errors'
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -89,5 +89,11 @@ describe('Objective Controller', () => {
     jest.spyOn(addObjectiveStub, 'add').mockReturnValueOnce(Promise.resolve(null))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(forbidden(new ObjectiveInUseError()))
+  })
+
+  test('should return 200 if valid data is provided', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ok(makeFakeObjective()))
   })
 })
