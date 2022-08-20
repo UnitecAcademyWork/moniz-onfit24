@@ -7,8 +7,11 @@ export class DbAddObjective implements AddObjective {
   ) {}
 
   async add (objectiveData: AddObjectiveModel): Promise<ObjectiveModel> {
-    await this.loadObjectiveByIdRepository.load(objectiveData.name)
-    const newObjective = await this.addObjectiveRepository.add(objectiveData)
-    return newObjective
+    const objective = await this.loadObjectiveByIdRepository.load(objectiveData.name)
+    if (!objective) {
+      const newObjective = await this.addObjectiveRepository.add(objectiveData)
+      return newObjective
+    }
+    return null
   }
 }
