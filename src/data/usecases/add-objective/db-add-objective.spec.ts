@@ -69,4 +69,11 @@ describe('DbAddObjective', () => {
     await sut.add(makeFakeObjectiveData())
     expect(loadSpy).toHaveBeenCalledWith('valid_name')
   })
+
+  test('should return null if LoadObjectiveByIdRepository not return null', async () => {
+    const { sut, loadObjectiveByIdRepositoryStub } = makeSut()
+    jest.spyOn(loadObjectiveByIdRepositoryStub, 'load').mockImplementationOnce(async () => Promise.resolve(makeFakeObjective()))
+    const objective = await sut.add(makeFakeObjectiveData())
+    expect(objective).toBeNull()
+  })
 })
