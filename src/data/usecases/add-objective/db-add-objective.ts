@@ -1,10 +1,14 @@
-import { AddObjective, AddObjectiveModel, AddObjectiveRepository, ObjectiveModel } from './db-add-objectve.protocols'
+import { AddObjective, AddObjectiveModel, AddObjectiveRepository, LoadObjectiveByIdRepository, ObjectiveModel } from './db-add-objectve.protocols'
 
 export class DbAddObjective implements AddObjective {
-  constructor (private readonly addObjectiveRepository: AddObjectiveRepository) {}
+  constructor (
+    private readonly addObjectiveRepository: AddObjectiveRepository,
+    private readonly loadObjectiveByIdRepository: LoadObjectiveByIdRepository
+  ) {}
 
   async add (objectiveData: AddObjectiveModel): Promise<ObjectiveModel> {
-    const objective = await this.addObjectiveRepository.add(objectiveData)
-    return objective
+    await this.loadObjectiveByIdRepository.load(objectiveData.name)
+    const newObjective = await this.addObjectiveRepository.add(objectiveData)
+    return newObjective
   }
 }
