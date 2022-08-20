@@ -1,5 +1,5 @@
 import { DbAddObjective } from './db-add-objective'
-import { AddObjectiveModel, AddObjectiveRepository, ObjectiveModel } from './db-add-objectve.protocols'
+import { AddObjectiveModel, AddObjectiveRepository, LoadObjectiveByIdRepository, ObjectiveModel } from './db-add-objectve.protocols'
 
 const makeFakeObjective = (): ObjectiveModel => ({
   id: 'valid_id',
@@ -23,15 +23,26 @@ const makeAddObjectiveRepository = (): AddObjectiveRepository => {
   return new AddObjectiveRepositoryStub()
 }
 
+const makeLoadObjectiveByIdRepository = (): LoadObjectiveByIdRepository => {
+  class LoadObjectiveByIdRepositoryStub implements LoadObjectiveByIdRepository {
+    async load (name: string): Promise<ObjectiveModel> {
+      return Promise.resolve(null)
+    }
+  }
+  return new LoadObjectiveByIdRepositoryStub()
+}
+
 interface sutTypes {
   sut: DbAddObjective
   addObjectiveRepositoryStub: AddObjectiveRepository
+  loadObjectiveByIdRepositoryStub: LoadObjectiveByIdRepository
 }
 
 const makeSut = (): sutTypes => {
   const addObjectiveRepositoryStub = makeAddObjectiveRepository()
-  const sut = new DbAddObjective(addObjectiveRepositoryStub)
-  return { sut, addObjectiveRepositoryStub }
+  const loadObjectiveByIdRepositoryStub = makeLoadObjectiveByIdRepository()
+  const sut = new DbAddObjective(addObjectiveRepositoryStub, loadObjectiveByIdRepositoryStub)
+  return { sut, addObjectiveRepositoryStub, loadObjectiveByIdRepositoryStub }
 }
 
 describe('DbAddObjective', () => {
@@ -50,5 +61,12 @@ describe('DbAddObjective', () => {
     const { sut } = makeSut()
     const objective = await sut.add(makeFakeObjectiveData())
     expect(objective).toEqual(makeFakeObjective())
+  })
+
+  test('should call LoadObjectiveByIdRepository with correct name', async () => {
+    const { sut, loadObjectiveByIdRepositoryStub } = makeSut()
+    const loadSpy = jest.spyOn(loadObjectiveByIdRepositoryStub, 'load')
+    await sut.add(makeFakeObjectiveData())
+    expect(loadSpy).toHaveBeenCalledWith('valid_name')
   })
 })
