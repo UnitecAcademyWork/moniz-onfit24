@@ -1,5 +1,5 @@
 import { DbAddObjective } from './db-add-objective'
-import { AddObjectiveModel, AddObjectiveRepository, LoadObjectiveByIdRepository, ObjectiveModel } from './db-add-objectve.protocols'
+import { AddObjectiveModel, AddObjectiveRepository, LoadObjectiveByNameRepository, ObjectiveModel } from './db-add-objectve.protocols'
 
 const makeFakeObjective = (): ObjectiveModel => ({
   id: 'valid_id',
@@ -23,9 +23,9 @@ const makeAddObjectiveRepository = (): AddObjectiveRepository => {
   return new AddObjectiveRepositoryStub()
 }
 
-const makeLoadObjectiveByIdRepository = (): LoadObjectiveByIdRepository => {
-  class LoadObjectiveByIdRepositoryStub implements LoadObjectiveByIdRepository {
-    async load (name: string): Promise<ObjectiveModel> {
+const makeLoadObjectiveByIdRepository = (): LoadObjectiveByNameRepository => {
+  class LoadObjectiveByIdRepositoryStub implements LoadObjectiveByNameRepository {
+    async loadByName (name: string): Promise<ObjectiveModel> {
       return Promise.resolve(null)
     }
   }
@@ -35,7 +35,7 @@ const makeLoadObjectiveByIdRepository = (): LoadObjectiveByIdRepository => {
 interface sutTypes {
   sut: DbAddObjective
   addObjectiveRepositoryStub: AddObjectiveRepository
-  loadObjectiveByIdRepositoryStub: LoadObjectiveByIdRepository
+  loadObjectiveByIdRepositoryStub: LoadObjectiveByNameRepository
 }
 
 const makeSut = (): sutTypes => {
@@ -65,14 +65,14 @@ describe('DbAddObjective', () => {
 
   test('should call LoadObjectiveByIdRepository with correct name', async () => {
     const { sut, loadObjectiveByIdRepositoryStub } = makeSut()
-    const loadSpy = jest.spyOn(loadObjectiveByIdRepositoryStub, 'load')
+    const loadSpy = jest.spyOn(loadObjectiveByIdRepositoryStub, 'loadByName')
     await sut.add(makeFakeObjectiveData())
     expect(loadSpy).toHaveBeenCalledWith('valid_name')
   })
 
   test('should return null if LoadObjectiveByIdRepository not return null', async () => {
     const { sut, loadObjectiveByIdRepositoryStub } = makeSut()
-    jest.spyOn(loadObjectiveByIdRepositoryStub, 'load').mockImplementationOnce(async () => Promise.resolve(makeFakeObjective()))
+    jest.spyOn(loadObjectiveByIdRepositoryStub, 'loadByName').mockImplementationOnce(async () => Promise.resolve(makeFakeObjective()))
     const objective = await sut.add(makeFakeObjectiveData())
     expect(objective).toBeNull()
   })
