@@ -1,6 +1,6 @@
 import 'module-alias/register'
 import env from './config/env'
-import { TypeormHelper } from '@/infra/db/typeorm/typeorm-helper'
+import { TypeormHelper } from '@/infra/db/typeorm-helper'
 import 'reflect-metadata'
 
 TypeormHelper.create().then(async () => {

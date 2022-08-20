@@ -1,8 +1,8 @@
 import request from 'supertest'
 import { hash } from 'bcrypt'
 import app from '../config/app'
-import { TypeormHelper } from '@/infra/db/typeorm/typeorm-helper'
-import { Account } from '@/infra/db/typeorm/entities/account'
+import { TypeormHelper } from '@/infra/db/typeorm-helper'
+import { Account } from '@/infra/db/entities/account'
 
 describe('Login Routes', () => {
   beforeAll(async () => {
