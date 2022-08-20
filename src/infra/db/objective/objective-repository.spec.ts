@@ -36,4 +36,10 @@ describe('Objective Repository', () => {
     expect(objective.icon).toBe('valid_icon')
     expect(objective.description).toBe('valid_description')
   })
+
+  test('should return null if loadByName fails', async () => {
+    const sut = makeSut()
+    const objective = await sut.loadByName('valid_name')
+    expect(objective).toBeFalsy()
+  })
 })
