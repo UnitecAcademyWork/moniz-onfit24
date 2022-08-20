@@ -3,8 +3,8 @@ import { AddObjective, AddObjectiveModel, AddObjectiveRepository, ObjectiveModel
 export class DbAddObjective implements AddObjective {
   constructor (private readonly addObjectiveRepository: AddObjectiveRepository) {}
 
-  async add (objective: AddObjectiveModel): Promise<ObjectiveModel> {
-    await this.addObjectiveRepository.add(objective)
-    return Promise.resolve(null)
+  async add (objectiveData: AddObjectiveModel): Promise<ObjectiveModel> {
+    const objective = await this.addObjectiveRepository.add(objectiveData)
+    return objective
   }
 }
