@@ -45,4 +45,10 @@ describe('DbAddObjective', () => {
       description: 'valid_description'
     })
   })
+
+  test('should return an objective on success', async () => {
+    const { sut } = makeSut()
+    const objective = await sut.add(makeFakeObjectiveData())
+    expect(objective).toEqual(makeFakeObjective())
+  })
 })
