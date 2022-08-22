@@ -5,8 +5,9 @@ import { AddAccountRepository } from '@/data/protocols/db/account/add-account-re
 import { LoadAccountByEmailRepository } from '@/data/protocols/db/account/load-account-by-email-repository'
 import { UpdateAccessTokenRepository } from '@/data/protocols/db/account/update-access-token-repository'
 import { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
+import { UpdateUserRoleRepository } from '@/data/protocols/db/account/update-user-role-repository'
 
-export class AccountRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository {
+export class AccountRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository, UpdateUserRoleRepository {
   async add (accountData: AddAccountModel): Promise<AccountModel> {
     const account = new Account()
     account.name = accountData.name
@@ -24,6 +25,12 @@ export class AccountRepository implements AddAccountRepository, LoadAccountByEma
   async updateAccessToken (id: string, token: string): Promise<void> {
     const account = await Account.findOneBy({ id })
     account.accessToken = token
+    await Account.save(account)
+  }
+
+  async updateRole (id: string, role: string): Promise<void> {
+    const account = await Account.findOneBy({ id })
+    account.role = role
     await Account.save(account)
   }
 
