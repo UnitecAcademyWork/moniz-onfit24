@@ -21,6 +21,11 @@ export class Account extends BaseEntity implements AccountModel {
   })
     accessToken: string
 
+  @Column({
+    default: ''
+  })
+    role: string
+
   @CreateDateColumn()
     createdAt: Date
 
