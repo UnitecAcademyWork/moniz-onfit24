@@ -14,7 +14,7 @@ describe('Objective Routes', () => {
   })
 
   describe('POST /objective', () => {
-    test('should return 200 on add objective', async () => {
+    test('should return 403 on add objective without accessToken', async () => {
       await request(app)
         .post('/api/objective')
         .send({
@@ -22,7 +22,7 @@ describe('Objective Routes', () => {
           icon: 'icon',
           description: 'description'
         })
-        .expect(200)
+        .expect(403)
     })
   })
 })
