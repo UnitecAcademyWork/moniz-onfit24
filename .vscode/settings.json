@@ -1,7 +1,9 @@
 {
   "cSpell.words": [
+    "Decrypter",
     "encrypter",
     "signup",
-    "typeorm"
+    "typeorm",
+    "Usecase"
   ]
 }
