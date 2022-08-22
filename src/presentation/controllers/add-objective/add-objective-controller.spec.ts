@@ -1,5 +1,5 @@
-import { ObjectiveController } from './objective-controller'
-import { AddObjective, AddObjectiveModel, HttpRequest, ObjectiveModel, Validation } from './objective-controller.protocols'
+import { ObjectiveController } from './add-objective-controller'
+import { AddObjective, AddObjectiveModel, HttpRequest, ObjectiveModel, Validation } from './add-objective-controller.protocols'
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { MissingParamError, ObjectiveInUseError, ServerError } from '../../errors'
 

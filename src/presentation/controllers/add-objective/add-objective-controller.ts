@@ -1,6 +1,6 @@
 import { ObjectiveInUseError } from '@/presentation/errors'
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { AddObjective, Controller, HttpRequest, HttpResponse, Validation } from './objective-controller.protocols'
+import { AddObjective, Controller, HttpRequest, HttpResponse, Validation } from './add-objective-controller.protocols'
 
 export class ObjectiveController implements Controller {
   constructor (private readonly validation: Validation, private readonly addObjective: AddObjective) {}
