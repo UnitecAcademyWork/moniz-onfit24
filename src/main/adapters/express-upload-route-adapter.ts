@@ -4,7 +4,7 @@ import { Request, Response } from 'express'
 export const routeAdapter = (controller: Controller) => {
   return async (req: Request, res: Response) => {
     const httpRequest: HttpRequest = {
-      body: req.body
+      body: req.files
     }
     const httpResponse = await controller.handle(httpRequest)
     if (httpResponse.statusCode === 200) {
