@@ -4,7 +4,7 @@ import { File } from '@/domain/models/file'
 import { FileUpload } from '@/domain/usecases/file-upload'
 import fs from 'fs'
 
-export class CloudnaryAdapter implements FileUpload {
+export class CloudinaryAdapter implements FileUpload {
   async upload (file: File): Promise<string> {
     cloudinary.config({
       cloud_name: env.cloud_name,

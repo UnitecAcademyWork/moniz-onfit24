@@ -1,16 +1,29 @@
 import { UploadController } from './upload-controller'
 import { FileUpload, File, HttpRequest } from './upload-controller.protocols'
 
+const makeFileUpload = (): FileUpload => {
+  class FileUploadStub implements FileUpload {
+    async upload (file: File): Promise<string> {
+      return Promise.resolve('any_path')
+    }
+  }
+  return new FileUploadStub()
+}
+interface sutTypes {
+  sut: UploadController
+  fileUploadStub: FileUpload
+}
+
+const makeSut = (): sutTypes => {
+  const fileUploadStub = makeFileUpload()
+  const sut = new UploadController(fileUploadStub)
+  return { sut, fileUploadStub }
+}
+
 describe('Upload Controller', () => {
   test('should call cloudnaryAdapter correct values', async () => {
-    class FileUploadStub implements FileUpload {
-      async upload (file: File): Promise<string> {
-        return Promise.resolve('any_path')
-      }
-    }
-    const fileUploadStub = new FileUploadStub()
+    const { sut, fileUploadStub } = makeSut()
     const uploadSpy = jest.spyOn(fileUploadStub, 'upload')
-    const sut = new UploadController(fileUploadStub)
     const httpRequest: HttpRequest = {
       body: {
         file: {
