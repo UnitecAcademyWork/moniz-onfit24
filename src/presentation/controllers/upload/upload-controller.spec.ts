@@ -5,16 +5,15 @@ import { FileUpload, File, HttpRequest, Validation } from './upload-controller.p
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
-    file: {
-      name: '857716.jpg',
-      data: Buffer.from('any_value'),
-      size: 581426,
-      encoding: '7bit',
-      tempFilePath: 'any_type',
-      truncated: false,
-      mimetype: 'image/jpeg',
-      md5: '44df16492d29fcc3ad9ba1a3833d3a3d'
-    }
+    name: '857716.jpg',
+    data: Buffer.from('any_value'),
+    size: 581426,
+    encoding: '7bit',
+    tempFilePath: 'any_type',
+    truncated: false,
+    mimetype: 'image/jpeg',
+    md5: '44df16492d29fcc3ad9ba1a3833d3a3d'
+
   }
 })
 

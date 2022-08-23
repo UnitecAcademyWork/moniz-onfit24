@@ -1,10 +1,10 @@
 import { Controller, HttpRequest } from '@/presentation/protocols'
 import { Request, Response } from 'express'
 
-export const routeAdapter = (controller: Controller) => {
+export const routeUploadAdapter = (controller: Controller) => {
   return async (req: Request, res: Response) => {
     const httpRequest: HttpRequest = {
-      body: req.files
+      body: req.files.file
     }
     const httpResponse = await controller.handle(httpRequest)
     if (httpResponse.statusCode === 200) {

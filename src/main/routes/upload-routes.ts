@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { makeUploadController } from '@/main/factories/controllers/upload/upload-controller-factory'
-import { routeAdapter } from '@/main/adapters/express-route-adapter'
+import { routeUploadAdapter } from '@/main/adapters/express-upload-route-adapter'
 
 export default (router: Router): void => {
-  router.post('/upload', routeAdapter(makeUploadController()))
+  router.post('/upload', routeUploadAdapter(makeUploadController()))
 }
