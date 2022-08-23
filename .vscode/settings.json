@@ -1,9 +1,13 @@
 {
   "cSpell.words": [
+    "cloudinary",
+    "Cloudnary",
     "Decrypter",
     "encrypter",
+    "fileupload",
     "signup",
     "typeorm",
-    "Usecase"
+    "Usecase",
+    "usecases"
   ]
 }
