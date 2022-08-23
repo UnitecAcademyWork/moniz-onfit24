@@ -1,5 +1,5 @@
 import { MissingParamError, ServerError } from '@/presentation/errors'
-import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { UploadController } from './upload-controller'
 import { FileUpload, File, HttpRequest, Validation } from './upload-controller.protocols'
 
@@ -81,5 +81,11 @@ describe('Upload Controller', () => {
     jest.spyOn(fileUploadStub, 'upload').mockImplementationOnce(async () => { return Promise.reject(new Error()) })
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new ServerError('')))
+  })
+
+  test('should return 200 if valid data is provided', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ok({ url: 'any_path' }))
   })
 })
