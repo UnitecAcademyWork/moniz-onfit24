@@ -1,8 +1,10 @@
+import { methodNotAllowed } from '@/presentation/helpers/http/http-helper'
 import { AddAccountInfoController } from './add-account-info-controller'
 import { AccountInfoModel, AddAccountInfo, AddAccountInfoModel, HttpRequest } from './add-account-info.protocols'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
+    accountId: 'any_AccountId',
     birth: 'any_date',
     gender: 'any_gender',
     height: 'any_height',
@@ -13,6 +15,7 @@ const makeFakeRequest = (): HttpRequest => ({
 
 const makeFakeAccountInfo = (): AccountInfoModel => ({
   id: 'any_id',
+  accountId: 'any_AccountId',
   birth: 'any_date',
   gender: 'any_gender',
   height: 'any_height',
@@ -47,11 +50,19 @@ describe('Add Account Info Controller', () => {
     const addSpy = jest.spyOn(addAccountInfoStub, 'add')
     await sut.handle(makeFakeRequest())
     expect(addSpy).toHaveBeenCalledWith({
+      accountId: 'any_AccountId',
       birth: 'any_date',
       gender: 'any_gender',
       height: 'any_height',
       objective: 'any_objective',
       weight: 'any_weight'
     })
+  })
+
+  test('should return 405 if AddAccountInfo returns null', async () => {
+    const { sut, addAccountInfoStub } = makeSut()
+    jest.spyOn(addAccountInfoStub, 'add').mockReturnValueOnce(Promise.resolve(null))
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(methodNotAllowed())
   })
 })
