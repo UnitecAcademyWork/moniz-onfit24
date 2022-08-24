@@ -53,4 +53,12 @@ describe('Objective Routes', () => {
         .expect(200)
     })
   })
+
+  describe('get /objective', () => {
+    test('should return 403 on add objective without accessToken', async () => {
+      await request(app)
+        .get('/api/objective')
+        .expect(403)
+    })
+  })
 })
