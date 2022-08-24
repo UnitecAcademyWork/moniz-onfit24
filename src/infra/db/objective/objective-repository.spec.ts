@@ -16,30 +16,34 @@ describe('Objective Repository', () => {
     await TypeormHelper.clear()
   })
 
-  test('should return an objective on add success', async () => {
-    const sut = makeSut()
-    const objective = await sut.add({ name: 'valid_name', icon: 'valid_icon', description: 'valid_description' })
-    expect(objective).toBeTruthy()
-    expect(objective.id).toBeTruthy()
-    expect(objective.name).toBe('valid_name')
-    expect(objective.icon).toBe('valid_icon')
-    expect(objective.description).toBe('valid_description')
+  describe('add()', () => {
+    test('should return an objective on add success', async () => {
+      const sut = makeSut()
+      const objective = await sut.add({ name: 'valid_name', icon: 'valid_icon', description: 'valid_description' })
+      expect(objective).toBeTruthy()
+      expect(objective.id).toBeTruthy()
+      expect(objective.name).toBe('valid_name')
+      expect(objective.icon).toBe('valid_icon')
+      expect(objective.description).toBe('valid_description')
+    })
   })
 
-  test('should return an objective on loadByName success', async () => {
-    const sut = makeSut()
-    await sut.add({ name: 'valid_name', icon: 'valid_icon', description: 'valid_description' })
-    const objective = await sut.loadByName('valid_name')
-    expect(objective).toBeTruthy()
-    expect(objective.id).toBeTruthy()
-    expect(objective.name).toBe('valid_name')
-    expect(objective.icon).toBe('valid_icon')
-    expect(objective.description).toBe('valid_description')
-  })
+  describe('loadByName()', () => {
+    test('should return an objective on loadByName success', async () => {
+      const sut = makeSut()
+      await sut.add({ name: 'valid_name', icon: 'valid_icon', description: 'valid_description' })
+      const objective = await sut.loadByName('valid_name')
+      expect(objective).toBeTruthy()
+      expect(objective.id).toBeTruthy()
+      expect(objective.name).toBe('valid_name')
+      expect(objective.icon).toBe('valid_icon')
+      expect(objective.description).toBe('valid_description')
+    })
 
-  test('should return null if loadByName fails', async () => {
-    const sut = makeSut()
-    const objective = await sut.loadByName('valid_name')
-    expect(objective).toBeFalsy()
+    test('should return null if loadByName fails', async () => {
+      const sut = makeSut()
+      const objective = await sut.loadByName('valid_name')
+      expect(objective).toBeFalsy()
+    })
   })
 })
