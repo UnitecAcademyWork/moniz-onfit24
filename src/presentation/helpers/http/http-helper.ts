@@ -36,6 +36,13 @@ export const noContent = (): HttpResponse => {
   }
 }
 
+export const methodNotAllowed = (): HttpResponse => {
+  return {
+    statusCode: 405,
+    body: []
+  }
+}
+
 export const unauthorized = (): HttpResponse => ({
   statusCode: 401,
   body: new UnauthorizedError()

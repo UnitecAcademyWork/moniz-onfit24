@@ -7,6 +7,7 @@ export interface AddAccountModel {
 }
 
 export interface AddAccountInfoModel {
+  accountId: string
   birth: string
   weight: string
   height: string

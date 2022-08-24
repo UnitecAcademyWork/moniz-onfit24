@@ -9,6 +9,7 @@ export interface AccountModel {
 
 export interface AccountInfoModel {
   id: string
+  accountId: string
   birth: string
   weight: string
   height: string
