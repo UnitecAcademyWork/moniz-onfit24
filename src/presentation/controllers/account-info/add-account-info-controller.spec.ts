@@ -1,5 +1,5 @@
 import { ServerError } from '@/presentation/errors'
-import { methodNotAllowed, serverError } from '@/presentation/helpers/http/http-helper'
+import { methodNotAllowed, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddAccountInfoController } from './add-account-info-controller'
 import { AccountInfoModel, AddAccountInfo, AddAccountInfoModel, HttpRequest } from './add-account-info.protocols'
 
@@ -72,5 +72,11 @@ describe('Add Account Info Controller', () => {
     jest.spyOn(addAccountInfoStub, 'add').mockRejectedValueOnce(new Error())
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new ServerError('')))
+  })
+
+  test('should return 200 if valida data is provided', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ok(makeFakeAccountInfo()))
   })
 })
