@@ -57,5 +57,11 @@ describe('Objective Repository', () => {
       expect(objectives[0].name).toBe('valid_name')
       expect(objectives[1].name).toBe('other_name')
     })
+
+    test('should load empty list', async () => {
+      const sut = makeSut()
+      const objectives = await sut.loadAll()
+      expect(objectives.length).toBe(0)
+    })
   })
 })
