@@ -1,4 +1,4 @@
-import { methodNotAllowed, serverError } from '@/presentation/helpers/http/http-helper'
+import { methodNotAllowed, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddAccountInfo, Controller, HttpRequest, HttpResponse } from './add-account-info.protocols'
 
 export class AddAccountInfoController implements Controller {
@@ -11,7 +11,7 @@ export class AddAccountInfoController implements Controller {
       if (!accountInfo) {
         return methodNotAllowed()
       }
-      return null
+      return ok(accountInfo)
     } catch (error) {
       return serverError(error)
     }
