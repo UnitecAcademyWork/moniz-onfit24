@@ -4,7 +4,7 @@ export class DbLoadObjectives implements LoadObjectives {
   constructor (private readonly loadObjectivesRepository: LoadObjectivesRepository) {}
 
   async load (): Promise<ObjectiveModel[]> {
-    await this.loadObjectivesRepository.loadAll()
-    return Promise.resolve(null)
+    const objectives = await this.loadObjectivesRepository.loadAll()
+    return objectives
   }
 }
