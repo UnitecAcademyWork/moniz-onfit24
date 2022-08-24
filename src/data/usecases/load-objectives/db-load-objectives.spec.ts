@@ -51,4 +51,11 @@ describe('DbLoadObjectives', () => {
     const objectives = await sut.load()
     expect(objectives).toEqual(makeFakeObjective())
   })
+
+  test('should throw if LoadObjectivesRepository throws', async () => {
+    const { sut, loadObjectivesRepositoryStub } = makeSut()
+    jest.spyOn(loadObjectivesRepositoryStub, 'loadAll').mockRejectedValueOnce(new Error())
+    const promise = sut.load()
+    await expect(promise).rejects.toThrow()
+  })
 })
