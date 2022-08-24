@@ -1,7 +1,8 @@
 import { Objective } from '../entities/objective'
 import { AddObjectiveModel, AddObjectiveRepository, LoadObjectiveByNameRepository, ObjectiveModel } from '@/data/usecases/add-objective/db-add-objectve.protocols'
+import { LoadObjectivesRepository } from '@/data/usecases/load-objectives/db-load-objectives.protocols'
 
-export class ObjectiveRepository implements AddObjectiveRepository, LoadObjectiveByNameRepository {
+export class ObjectiveRepository implements AddObjectiveRepository, LoadObjectiveByNameRepository, LoadObjectivesRepository {
   async add (objectiveData: AddObjectiveModel): Promise<ObjectiveModel> {
     const objective = new Objective()
     objective.name = objectiveData.name
@@ -14,5 +15,10 @@ export class ObjectiveRepository implements AddObjectiveRepository, LoadObjectiv
   async loadByName (name: string): Promise<ObjectiveModel> {
     const objective = await Objective.findOneBy({ name })
     return objective
+  }
+
+  async loadAll (): Promise<ObjectiveModel[]> {
+    const objectives = await Objective.find()
+    return objectives
   }
 }
