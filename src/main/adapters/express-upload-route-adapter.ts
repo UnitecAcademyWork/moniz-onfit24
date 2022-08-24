@@ -4,7 +4,7 @@ import { Request, Response } from 'express'
 export const routeUploadAdapter = (controller: Controller) => {
   return async (req: Request, res: Response) => {
     const httpRequest: HttpRequest = {
-      body: req.files.file
+      body: req.files
     }
     const httpResponse = await controller.handle(httpRequest)
     if (httpResponse.statusCode === 200) {
