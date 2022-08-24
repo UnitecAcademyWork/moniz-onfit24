@@ -1,3 +1,4 @@
+import { ok } from '@/presentation/helpers/http/http-helper'
 import { LoadObjectivesController } from './load-objectives-controller'
 import { LoadObjectives, ObjectiveModel } from './load-objectives-controller.protocol'
 
@@ -42,5 +43,11 @@ describe('LoadObjective Controller', () => {
     const loadSpy = jest.spyOn(loadObjectivesStub, 'load')
     await sut.handle({})
     expect(loadSpy).toHaveBeenCalled()
+  })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual(ok(makeFakeObjective()))
   })
 })
