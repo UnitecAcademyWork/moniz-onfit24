@@ -45,4 +45,10 @@ describe('DbLoadObjectives', () => {
     await sut.load()
     expect(loadAllSpy).toHaveBeenCalled()
   })
+
+  test('should return a list of Objectives on success', async () => {
+    const { sut } = makeSut()
+    const objectives = await sut.load()
+    expect(objectives).toEqual(makeFakeObjective())
+  })
 })
