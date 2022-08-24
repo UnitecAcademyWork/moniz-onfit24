@@ -6,3 +6,12 @@ export interface AccountModel {
   accessToken?: string
   role?: string
 }
+
+export interface AccountInfoModel {
+  id: string
+  birth: string
+  weight: string
+  height: string
+  gender: string
+  objective: string
+}
