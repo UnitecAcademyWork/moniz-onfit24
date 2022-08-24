@@ -1,4 +1,5 @@
-import { methodNotAllowed } from '@/presentation/helpers/http/http-helper'
+import { ServerError } from '@/presentation/errors'
+import { methodNotAllowed, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddAccountInfoController } from './add-account-info-controller'
 import { AccountInfoModel, AddAccountInfo, AddAccountInfoModel, HttpRequest } from './add-account-info.protocols'
 
@@ -64,5 +65,12 @@ describe('Add Account Info Controller', () => {
     jest.spyOn(addAccountInfoStub, 'add').mockReturnValueOnce(Promise.resolve(null))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(methodNotAllowed())
+  })
+
+  test('should return 500 if AddAccountInfo throws', async () => {
+    const { sut, addAccountInfoStub } = makeSut()
+    jest.spyOn(addAccountInfoStub, 'add').mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(serverError(new ServerError('')))
   })
 })
