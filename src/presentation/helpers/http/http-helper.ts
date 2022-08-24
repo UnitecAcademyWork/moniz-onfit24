@@ -32,7 +32,7 @@ export const ok = (data): HttpResponse => {
 export const noContent = (): HttpResponse => {
   return {
     statusCode: 204,
-    body: null
+    body: []
   }
 }
 
