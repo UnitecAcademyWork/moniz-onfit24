@@ -1,4 +1,4 @@
-import { ok } from '@/presentation/helpers/http/http-helper'
+import { ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { LoadObjectivesController } from './load-objectives-controller'
 import { LoadObjectives, ObjectiveModel } from './load-objectives-controller.protocol'
 
@@ -49,5 +49,12 @@ describe('LoadObjective Controller', () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(ok(makeFakeObjective()))
+  })
+
+  test('should return 500 if LoadObjectives', async () => {
+    const { sut, loadObjectivesStub } = makeSut()
+    jest.spyOn(loadObjectivesStub, 'load').mockReturnValueOnce(Promise.reject(new Error()))
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
