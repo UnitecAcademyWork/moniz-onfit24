@@ -46,4 +46,16 @@ describe('Objective Repository', () => {
       expect(objective).toBeFalsy()
     })
   })
+
+  describe('loadAll()', () => {
+    test('should load all objectives on success', async () => {
+      const sut = makeSut()
+      await sut.add({ name: 'valid_name', icon: 'valid_icon', description: 'valid_description' })
+      await sut.add({ name: 'other_name', icon: 'other_icon', description: 'other_description' })
+      const objectives = await sut.loadAll()
+      expect(objectives.length).toBe(2)
+      expect(objectives[0].name).toBe('valid_name')
+      expect(objectives[1].name).toBe('other_name')
+    })
+  })
 })
