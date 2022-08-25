@@ -1,5 +1,5 @@
-import { ServerError } from '@/presentation/errors'
-import { methodNotAllowed, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { MissingParamError, ServerError } from '@/presentation/errors'
+import { badRequest, methodNotAllowed, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddAccountInfoController } from './add-account-info-controller'
 import { AccountInfoModel, AddAccountInfo, AddAccountInfoModel, HttpRequest, Validation } from './add-account-info.protocols'
 
@@ -97,5 +97,12 @@ describe('Add Account Info Controller', () => {
     const httpRequest = makeFakeRequest()
     await sut.handle(makeFakeRequest())
     expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
+  })
+
+  test('should return 400 if Validation returns an error', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'))
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('any_field')))
   })
 })
