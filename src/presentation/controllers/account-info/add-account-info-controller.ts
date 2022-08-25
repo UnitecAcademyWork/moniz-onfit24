@@ -1,4 +1,4 @@
-import { methodNotAllowed, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, methodNotAllowed, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddAccountInfo, Controller, HttpRequest, HttpResponse, Validation } from './add-account-info.protocols'
 
 export class AddAccountInfoController implements Controller {
@@ -9,7 +9,10 @@ export class AddAccountInfoController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      this.validation.validate(httpRequest.body)
+      const error = this.validation.validate(httpRequest.body)
+      if (error) {
+        return badRequest(error)
+      }
       const { accountId, birth, gender, height, objective, weight } = httpRequest.body
       const accountInfo = await this.addAccountInfo.add({ accountId, birth, gender, height, objective, weight })
       if (!accountInfo) {
