@@ -55,4 +55,10 @@ describe('DbAddAccountInfo Repository', () => {
       weight: 'any_weight'
     })
   })
+
+  test('should return an account info on success', async () => {
+    const { sut } = makeSut()
+    const accountInfo = await sut.add(makeFakeAccountInfoData())
+    expect(accountInfo).toEqual(makeFakeAccountInfo())
+  })
 })
