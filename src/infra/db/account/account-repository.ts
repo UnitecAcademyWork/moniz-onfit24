@@ -53,6 +53,7 @@ export class AccountRepository implements AddAccountRepository, LoadAccountByEma
       accountInfo.objective = accountInfoData.objective
       accountInfo.weight = accountInfoData.weight
       await AccountInfo.save(accountInfo)
+      delete accountInfo.account
       return accountInfo
     }
     return null
