@@ -154,5 +154,18 @@ describe('Account Repository', () => {
       expect(accountInfo.objective).toBe('any_objective')
       expect(accountInfo.weight).toBe('any_weight')
     })
+
+    test('should return null if addAccountInfo fails', async () => {
+      const sut = makeSut()
+      const accountInfo = await sut.addAccountInfo({
+        accountId: 'wrong_id',
+        birth: 'any_birth',
+        gender: 'any_gender',
+        height: 'any_height',
+        objective: 'any_objective',
+        weight: 'any_weight'
+      })
+      expect(accountInfo).toBeNull()
+    })
   })
 })
