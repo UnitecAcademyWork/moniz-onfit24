@@ -61,4 +61,11 @@ describe('DbAddAccountInfo Repository', () => {
     const accountInfo = await sut.add(makeFakeAccountInfoData())
     expect(accountInfo).toEqual(makeFakeAccountInfo())
   })
+
+  test('should return null if addAccountInfoRepository returns null', async () => {
+    const { sut, addAccountInfoRepositoryStub } = makeSut()
+    jest.spyOn(addAccountInfoRepositoryStub, 'addAccountInfo').mockResolvedValueOnce(null)
+    const accountInfo = await sut.add(makeFakeAccountInfoData())
+    expect(accountInfo).toBeNull()
+  })
 })
