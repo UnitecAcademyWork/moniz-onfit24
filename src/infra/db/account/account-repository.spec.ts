@@ -132,4 +132,27 @@ describe('Account Repository', () => {
       expect(account).toBeFalsy()
     })
   })
+
+  describe('addAccountInfo()', () => {
+    test('should return an account info on addAccountInfo success', async () => {
+      const account = await makeAddAccount()
+      const sut = makeSut()
+      const accountInfo = await sut.addAccountInfo({
+        accountId: account.id,
+        birth: 'any_birth',
+        gender: 'any_gender',
+        height: 'any_height',
+        objective: 'any_objective',
+        weight: 'any_weight'
+      })
+      expect(accountInfo).toBeTruthy()
+      expect(accountInfo.id).toBeTruthy()
+      expect(accountInfo.accountId).toBe(account.id)
+      expect(accountInfo.birth).toBe('any_birth')
+      expect(accountInfo.gender).toBe('any_gender')
+      expect(accountInfo.height).toBe('any_height')
+      expect(accountInfo.objective).toBe('any_objective')
+      expect(accountInfo.weight).toBe('any_weight')
+    })
+  })
 })
