@@ -5,6 +5,9 @@ export class DbAddAccountInfo implements AddAccountInfo {
 
   async add (accountInfoData: AddAccountInfoModel): Promise<AccountInfoModel> {
     const accountInfo = await this.addAccountInfoRepository.addAccountInfo(accountInfoData)
-    return accountInfo
+    if (accountInfo) {
+      return accountInfo
+    }
+    return null
   }
 }
