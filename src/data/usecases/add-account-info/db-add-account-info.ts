@@ -3,8 +3,8 @@ import { AccountInfoModel, AddAccountInfo, AddAccountInfoModel, AddAccountInfoRe
 export class DbAddAccountInfo implements AddAccountInfo {
   constructor (private readonly addAccountInfoRepository: AddAccountInfoRepository) {}
 
-  async add (accountInfo: AddAccountInfoModel): Promise<AccountInfoModel> {
-    await this.addAccountInfoRepository.addAccountInfo(accountInfo)
-    return null
+  async add (accountInfoData: AddAccountInfoModel): Promise<AccountInfoModel> {
+    const accountInfo = await this.addAccountInfoRepository.addAccountInfo(accountInfoData)
+    return accountInfo
   }
 }
