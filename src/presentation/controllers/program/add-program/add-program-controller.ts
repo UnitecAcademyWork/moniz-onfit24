@@ -1,6 +1,5 @@
 import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { HttpRequest, HttpResponse } from '../account-info/add-account-info-controller.protocols'
-import { AddProgram, Controller, Validation } from './add-program-controller.protocols'
+import { AddProgram, Controller, HttpRequest, HttpResponse, Validation } from './add-program-controller.protocols'
 
 export class AddProgramController implements Controller {
   constructor (
