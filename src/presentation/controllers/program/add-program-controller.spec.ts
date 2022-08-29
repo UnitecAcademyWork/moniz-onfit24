@@ -1,7 +1,7 @@
 import { ProgramModel } from '@/domain/models/program'
 import { AddProgramModel } from '@/domain/usecases/add-programa'
 import { MissingParamError, ServerError } from '@/presentation/errors'
-import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddProgramController } from './add-program-controller'
 import { AddProgram, HttpRequest, Validation } from './add-program-controller.protocols'
 
@@ -90,5 +90,11 @@ describe('Add Program Controller', () => {
     jest.spyOn(addProgramStub, 'add').mockImplementationOnce(async () => { return await Promise.reject(new Error()) })
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new ServerError('')))
+  })
+
+  test('should return 200 if valid data is provided', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ok(makeFakeProgram()))
   })
 })
