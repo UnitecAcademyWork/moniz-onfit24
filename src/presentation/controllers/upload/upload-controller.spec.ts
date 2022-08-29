@@ -4,7 +4,7 @@ import { UploadController } from './upload-controller'
 import { FileUpload, File, HttpRequest, Validation } from './upload-controller.protocols'
 
 const makeFakeRequest = (): HttpRequest => ({
-  body: {
+  files: {
     file: {
       name: '857716.jpg',
       data: Buffer.from('any_value'),
@@ -66,7 +66,7 @@ describe('Upload Controller', () => {
     const validateSpy = jest.spyOn(validationStub, 'validate')
     const httpRequest = makeFakeRequest()
     await sut.handle(makeFakeRequest())
-    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body.file)
+    expect(validateSpy).toHaveBeenCalledWith(httpRequest.files.file)
   })
 
   test('should return 400 if Validation returns an error', async () => {

@@ -9,11 +9,11 @@ export class UploadController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body.file)
+      const error = this.validation.validate(httpRequest.files.file)
       if (error) {
         return badRequest(error)
       }
-      const { name, tempFilePath, mimetype, size } = httpRequest.body.file
+      const { name, tempFilePath, mimetype, size } = httpRequest.files.file
       const url = await this.fileUploadAdapter.upload({ name, tempFilePath, mimetype, size })
       return ok({ url })
     } catch (error) {
