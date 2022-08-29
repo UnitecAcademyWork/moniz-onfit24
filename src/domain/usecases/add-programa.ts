@@ -6,6 +6,7 @@ export interface AddProgramModel {
   difficulty: string
   duration?: string
   objective?: string[]
+  equipment?: string[]
 }
 
 export interface AddProgram {

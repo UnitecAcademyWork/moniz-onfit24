@@ -7,7 +7,8 @@ const makeFakeProgram = (): ProgramModel => ({
   description: 'any_description',
   difficulty: 'any_difficulty',
   duration: 'any_duration',
-  objective: ['any_objective', 'other_objective']
+  objective: ['any_objective', 'other_objective'],
+  equipment: ['any_equipment', 'other_equipment']
 })
 
 const makeFakeProgramData = (): AddProgramModel => ({
@@ -15,7 +16,8 @@ const makeFakeProgramData = (): AddProgramModel => ({
   description: 'any_description',
   difficulty: 'any_difficulty',
   duration: 'any_duration',
-  objective: ['any_objective', 'other_objective']
+  objective: ['any_objective', 'other_objective'],
+  equipment: ['any_equipment', 'other_equipment']
 })
 
 const makeAddProgramRepository = (): AddProgramRepository => {
@@ -49,7 +51,14 @@ describe('DbAddProgram', () => {
       description: 'any_description',
       difficulty: 'any_difficulty',
       duration: 'any_duration',
-      objective: ['any_objective', 'other_objective']
+      objective: ['any_objective', 'other_objective'],
+      equipment: ['any_equipment', 'other_equipment']
     })
+  })
+
+  test('should return a program on success', async () => {
+    const { sut } = makeSut()
+    const program = await sut.add(makeFakeProgramData())
+    expect(program).toEqual(makeFakeProgram())
   })
 })

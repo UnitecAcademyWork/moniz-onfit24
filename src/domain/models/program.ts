@@ -5,4 +5,5 @@ export interface ProgramModel {
   difficulty: string
   duration?: string
   objective?: string[]
+  equipment?: string[]
 }
