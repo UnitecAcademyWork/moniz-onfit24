@@ -1,7 +1,7 @@
 import { MissingParamError, ServerError } from '@/presentation/errors'
 import { badRequest, methodNotAllowed, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddAccountInfoController } from './add-account-info-controller'
-import { AccountInfoModel, AddAccountInfo, AddAccountInfoModel, HttpRequest, Validation } from './add-account-info.protocols'
+import { AccountInfoModel, AddAccountInfo, AddAccountInfoModel, HttpRequest, Validation } from './add-account-info-controller.protocols'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
