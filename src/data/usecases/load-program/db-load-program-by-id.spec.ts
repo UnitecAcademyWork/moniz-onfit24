@@ -46,4 +46,11 @@ describe('LoadProgramById', () => {
     const program = await sut.loadById('any_id')
     expect(program).toEqual(makeFakeProgram())
   })
+
+  test('should throw if LoadProgramByIdRepository throws', async () => {
+    const { sut, loadProgramByIdRepositoryStub } = makeSut()
+    jest.spyOn(loadProgramByIdRepositoryStub, 'loadById').mockRejectedValueOnce(new Error())
+    const promise = sut.loadById('any_id')
+    await expect(promise).rejects.toThrow()
+  })
 })
