@@ -6,7 +6,7 @@ export class DbLoadProgramById implements LoadProgramById {
   constructor (private readonly loadProgramByIdRepository: LoadProgramByIdRepository) {}
 
   async loadById (id: string): Promise<ProgramModel> {
-    await this.loadProgramByIdRepository.loadById(id)
-    return Promise.resolve(null)
+    const program = await this.loadProgramByIdRepository.loadById(id)
+    return program
   }
 }
