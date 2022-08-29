@@ -40,4 +40,10 @@ describe('LoadProgramById', () => {
     await sut.loadById('any_id')
     expect(loadByIdSpy).toHaveBeenCalledWith('any_id')
   })
+
+  test('should return a program on success', async () => {
+    const { sut } = makeSut()
+    const program = await sut.loadById('any_id')
+    expect(program).toEqual(makeFakeProgram())
+  })
 })
