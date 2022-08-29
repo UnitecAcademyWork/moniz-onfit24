@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden, serverError } from '@/presentation/helpers/http/http-helper'
+import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse, LoadProgramById } from './load-program-controller.protocols'
 
 export class LoadProgramController implements Controller {
@@ -11,7 +11,7 @@ export class LoadProgramController implements Controller {
       if (!program) {
         return forbidden(new InvalidParamError('programId'))
       }
-      return null
+      return ok(program)
     } catch (error) {
       return serverError(error)
     }
