@@ -1,6 +1,4 @@
-import { LoadProgramByIdRepository } from '@/data/protocols/db/program/load-program-by-id-repository'
-import { LoadProgramById } from '@/domain/usecases/load-program-by-id'
-import { ProgramModel } from '../add-program/db-add-program.protocols'
+import { LoadProgramById, LoadProgramByIdRepository, ProgramModel } from './db-load-program-by-id.protocols'
 
 export class DbLoadProgramById implements LoadProgramById {
   constructor (private readonly loadProgramByIdRepository: LoadProgramByIdRepository) {}

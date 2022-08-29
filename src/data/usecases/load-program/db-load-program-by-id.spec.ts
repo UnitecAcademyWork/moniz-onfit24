@@ -1,6 +1,5 @@
-import { LoadProgramByIdRepository } from '@/data/protocols/db/program/load-program-by-id-repository'
-import { ProgramModel } from '@/domain/models/program'
 import { DbLoadProgramById } from './db-load-program-by-id'
+import { LoadProgramByIdRepository, ProgramModel } from './db-load-program-by-id.protocols'
 
 const makeFakeProgram = (): ProgramModel => ({
   id: 'any_id',
