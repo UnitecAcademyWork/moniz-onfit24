@@ -9,5 +9,5 @@ export interface AddProgramModel {
 }
 
 export interface AddProgram {
-  add: (programa: AddProgramModel) => Promise<ProgramModel>
+  add: (programData: AddProgramModel) => Promise<ProgramModel>
 }
