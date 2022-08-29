@@ -1,7 +1,7 @@
 import { ProgramModel } from '@/domain/models/program'
 import { AddProgramModel } from '@/domain/usecases/add-programa'
-import { MissingParamError } from '@/presentation/errors'
-import { badRequest } from '@/presentation/helpers/http/http-helper'
+import { MissingParamError, ServerError } from '@/presentation/errors'
+import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddProgramController } from './add-program-controller'
 import { AddProgram, HttpRequest, Validation } from './add-program-controller.protocols'
 
@@ -83,5 +83,12 @@ describe('Add Program Controller', () => {
       duration: 'any_duration',
       objective: ['any_objective', 'other_objective']
     })
+  })
+
+  test('should return 500 if AddProgram throws', async () => {
+    const { sut, addProgramStub } = makeSut()
+    jest.spyOn(addProgramStub, 'add').mockImplementationOnce(async () => { return await Promise.reject(new Error()) })
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(serverError(new ServerError('')))
   })
 })
