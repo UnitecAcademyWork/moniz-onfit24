@@ -1,6 +1,6 @@
 import { AddProgramRepository } from '@/data/protocols/db/program/add-program-repository'
 import { ProgramModel } from '@/domain/models/program'
-import { AddProgramModel } from '@/domain/usecases/add-programa'
+import { AddProgramModel } from '@/domain/usecases/add-program'
 import { Program } from '../entities/program'
 
 export class ProgramRepository implements AddProgramRepository {

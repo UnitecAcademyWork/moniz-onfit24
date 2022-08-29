@@ -1,5 +1,5 @@
 export * from '../../protocols'
 export * from '@/domain/models/program'
-export * from '@/domain/usecases/add-programa'
+export * from '@/domain/usecases/add-program'
 export * from '@/presentation/helpers/validators'
 export * from '@/presentation/protocols/validation'
