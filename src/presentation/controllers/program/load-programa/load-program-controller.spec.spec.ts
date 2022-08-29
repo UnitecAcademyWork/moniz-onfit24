@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden } from '@/presentation/helpers/http/http-helper'
+import { forbidden, serverError } from '@/presentation/helpers/http/http-helper'
 import { LoadProgramController } from './load-program-controller'
 import { HttpRequest, LoadProgramById, ProgramModel } from './load-program-controller.protocols'
 
@@ -51,5 +51,12 @@ describe('LoadProgram Controller', () => {
     jest.spyOn(loadProgramByIdStub, 'loadById').mockResolvedValueOnce(null)
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('programId')))
+  })
+
+  test('should return 500 if LoadProgramById throws', async () => {
+    const { sut, loadProgramByIdStub } = makeSut()
+    jest.spyOn(loadProgramByIdStub, 'loadById').mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
