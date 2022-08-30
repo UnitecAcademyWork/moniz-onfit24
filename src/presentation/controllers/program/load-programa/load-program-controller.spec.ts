@@ -12,6 +12,7 @@ const makeFakeRequest = (): HttpRequest => ({
 const makeFakeProgram = (): ProgramModel => ({
   id: 'any_id',
   name: 'any_name',
+  url: 'any_url',
   description: 'any_description',
   difficulty: 'any_difficulty',
   duration: 'any_duration',

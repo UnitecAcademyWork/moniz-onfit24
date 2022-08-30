@@ -8,6 +8,7 @@ import { AddProgram, HttpRequest } from './update-program-controller.protocols'
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     name: 'any_name',
+    url: 'any_url',
     description: 'any_description',
     difficulty: 'any_difficulty',
     duration: 'any_duration',
@@ -21,6 +22,7 @@ const makeFakeRequest = (): HttpRequest => ({
 
 const makeFakeProgram = (): ProgramModel => ({
   id: 'any_id',
+  url: 'any_url',
   name: 'any_name',
   description: 'any_description',
   difficulty: 'any_difficulty',
@@ -57,6 +59,7 @@ describe('Update Program Controller', () => {
     await sut.handle(makeFakeRequest())
     expect(addSpy).toHaveBeenCalledWith({
       name: 'any_name',
+      url: 'any_url',
       description: 'any_description',
       difficulty: 'any_difficulty',
       duration: 'any_duration',

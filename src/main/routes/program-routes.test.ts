@@ -26,6 +26,7 @@ const makeAccessToken = async (): Promise<string> => {
 const makeProgram = async (): Promise<ProgramModel> => {
   const program = new Program()
   program.name = 'any_name'
+  program.url = 'any_url'
   program.description = 'any_description'
   program.difficulty = 'any_difficulty'
   program.duration = 'any_duration'
@@ -53,6 +54,7 @@ describe('Program Routes', () => {
         .set('x-access-token', accessToken)
         .send({
           name: 'any_name',
+          url: 'any_url',
           description: 'any_description',
           difficulty: 'any_difficulty',
           duration: 'any_duration',

@@ -8,6 +8,7 @@ import { AddProgram, HttpRequest, Validation } from './add-program-controller.pr
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     name: 'any_name',
+    url: 'any_url',
     description: 'any_description',
     difficulty: 'any_difficulty',
     duration: 'any_duration',
@@ -18,6 +19,7 @@ const makeFakeRequest = (): HttpRequest => ({
 const makeFakeProgram = (): ProgramModel => ({
   id: 'any_id',
   name: 'any_name',
+  url: 'any_url',
   description: 'any_description',
   difficulty: 'any_difficulty',
   duration: 'any_duration',
@@ -78,6 +80,7 @@ describe('Add Program Controller', () => {
     await sut.handle(makeFakeRequest())
     expect(addSpy).toHaveBeenCalledWith({
       name: 'any_name',
+      url: 'any_url',
       description: 'any_description',
       difficulty: 'any_difficulty',
       duration: 'any_duration',

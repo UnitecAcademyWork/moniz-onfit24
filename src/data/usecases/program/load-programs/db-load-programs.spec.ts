@@ -4,6 +4,7 @@ import { LoadProgramsRepository, ProgramModel } from './db-load-programs.protoco
 const makeFakeProgram = (): ProgramModel[] => ([{
   id: 'any_id',
   name: 'any_name',
+  url: 'any_url',
   description: 'any_description',
   difficulty: 'any_difficulty',
   duration: 'any_duration',
@@ -12,6 +13,7 @@ const makeFakeProgram = (): ProgramModel[] => ([{
 }, {
   id: 'other_id',
   name: 'other_name',
+  url: 'any_url',
   description: 'other_description',
   difficulty: 'other_difficulty',
   duration: 'other_duration',

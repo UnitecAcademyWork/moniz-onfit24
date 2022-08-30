@@ -10,8 +10,8 @@ export class UpdateProgramController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const programId = httpRequest.params.programId
-      const { name, description, difficulty, duration, objective, equipment } = httpRequest.body
-      const program = await this.addProgram.add({ name, description, difficulty, duration, objective, equipment }, programId)
+      const { name, url, description, difficulty, duration, objective, equipment } = httpRequest.body
+      const program = await this.addProgram.add({ name, url, description, difficulty, duration, objective, equipment }, programId)
       if (!program) {
         return forbidden(new InvalidParamError('programId'))
       }

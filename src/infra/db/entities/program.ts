@@ -13,6 +13,9 @@ export class Program extends BaseEntity implements ProgramModel {
     name: string
 
   @Column()
+    url: string
+
+  @Column()
     difficulty: string
 
   @Column()

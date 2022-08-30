@@ -11,6 +11,7 @@ export class ProgramRepository implements AddProgramRepository, LoadProgramByIdR
     const program = new Program()
     program.id = programId
     program.name = programData.name
+    program.url = programData.url
     program.description = programData.description
     program.objective = programData.objective
     program.difficulty = programData.difficulty

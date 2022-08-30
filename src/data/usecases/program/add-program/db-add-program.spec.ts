@@ -4,6 +4,7 @@ import { AddProgramModel, AddProgramRepository, ProgramModel } from './db-add-pr
 const makeFakeProgram = (): ProgramModel => ({
   id: 'any_id',
   name: 'any_name',
+  url: 'any_url',
   description: 'any_description',
   difficulty: 'any_difficulty',
   duration: 'any_duration',
@@ -13,6 +14,7 @@ const makeFakeProgram = (): ProgramModel => ({
 
 const makeFakeProgramData = (): AddProgramModel => ({
   name: 'any_name',
+  url: 'any_url',
   description: 'any_description',
   difficulty: 'any_difficulty',
   duration: 'any_duration',
@@ -48,6 +50,7 @@ describe('DbAddProgram', () => {
     await sut.add(makeFakeProgramData(), 'any_id')
     expect(addSpy).toHaveBeenCalledWith({
       name: 'any_name',
+      url: 'any_url',
       description: 'any_description',
       difficulty: 'any_difficulty',
       duration: 'any_duration',

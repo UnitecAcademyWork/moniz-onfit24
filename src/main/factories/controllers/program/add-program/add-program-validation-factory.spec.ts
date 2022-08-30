@@ -8,7 +8,7 @@ describe('AddProgramValidation Factory', () => {
   test('should call ValidationComposite with all validations', () => {
     makeAddProgramValidation()
     const validations: Validation[] = []
-    for (const field of ['name', 'description', 'difficulty']) {
+    for (const field of ['name', 'url', 'description', 'difficulty']) {
       validations.push(new RequiredFieldValidation(field))
     }
     expect(ValidationComposite).toHaveBeenCalledWith(validations)

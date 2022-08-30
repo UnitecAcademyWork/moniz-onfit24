@@ -3,6 +3,7 @@ import { LoadProgramByIdRepository, ProgramModel } from './db-load-program-by-id
 
 const makeFakeProgram = (): ProgramModel => ({
   id: 'any_id',
+  url: 'any_url',
   name: 'any_name',
   description: 'any_description',
   difficulty: 'any_difficulty',

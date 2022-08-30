@@ -13,8 +13,8 @@ export class AddProgramController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const { name, description, difficulty, duration, objective, equipment } = httpRequest.body
-      const program = await this.addProgram.add({ name, description, difficulty, duration, objective, equipment })
+      const { name, description, url, difficulty, duration, objective, equipment } = httpRequest.body
+      const program = await this.addProgram.add({ name, url, description, difficulty, duration, objective, equipment })
       return ok(program)
     } catch (error) {
       return serverError(error)
