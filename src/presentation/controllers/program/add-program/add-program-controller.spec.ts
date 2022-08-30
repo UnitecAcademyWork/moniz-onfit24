@@ -1,5 +1,5 @@
 import { ProgramModel } from '@/domain/models/program'
-import { AddProgramModel } from '@/domain/usecases/add-program'
+import { AddProgramModel } from '@/domain/usecases/program/add-program'
 import { MissingParamError, ServerError } from '@/presentation/errors'
 import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddProgramController } from './add-program-controller'

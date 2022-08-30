@@ -1,4 +1,4 @@
-import { AddAccountInfo } from '@/domain/usecases/add-account'
+import { AddAccountInfo } from '@/domain/usecases/account/add-account'
 import { AccountRepository } from '@/infra/db/account/account-repository'
 import { DbAddAccountInfo } from '@/data/usecases/account/add-account-info/db-add-account-info'
 

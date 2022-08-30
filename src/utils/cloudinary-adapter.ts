@@ -1,7 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary'
 import env from '@/main/config/env'
 import { File } from '@/domain/models/file'
-import { FileUpload } from '@/domain/usecases/file-upload'
+import { FileUpload } from '@/domain/usecases/upload/file-upload'
 import fs from 'fs'
 
 export class CloudinaryAdapter implements FileUpload {

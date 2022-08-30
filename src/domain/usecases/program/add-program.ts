@@ -1,4 +1,4 @@
-import { ProgramModel } from '../models/program'
+import { ProgramModel } from '../../models/program'
 
 export interface AddProgramModel {
   name: string

@@ -1,4 +1,4 @@
-import { ObjectiveModel } from '../models/objective'
+import { ObjectiveModel } from '../../models/objective'
 
 export interface AddObjectiveModel {
   name: string

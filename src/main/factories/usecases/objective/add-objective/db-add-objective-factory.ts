@@ -1,4 +1,4 @@
-import { AddObjective } from '@/domain/usecases/add-objective'
+import { AddObjective } from '@/domain/usecases/objective/add-objective'
 import { DbAddObjective } from '@/data/usecases/objective/add-objective/db-add-objective'
 import { ObjectiveRepository } from '@/infra/db/objective/objective-repository'
 

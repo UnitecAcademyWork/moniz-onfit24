@@ -1,4 +1,4 @@
-import { AddAccount } from '@/domain/usecases/add-account'
+import { AddAccount } from '@/domain/usecases/account/add-account'
 import { DbAddAccount } from '@/data/usecases/account/add-account/db-add-account'
 import { AccountRepository } from '@/infra/db/account/account-repository'
 import { BcryptAdapter } from '@/infra/cryptography/bcrypt-adapter/bcrypt-adpter'
