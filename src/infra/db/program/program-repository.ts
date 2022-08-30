@@ -1,9 +1,10 @@
 import { AddProgramRepository } from '@/data/protocols/db/program/add-program-repository'
+import { LoadProgramByIdRepository } from '@/data/protocols/db/program/load-program-by-id-repository'
 import { ProgramModel } from '@/domain/models/program'
 import { AddProgramModel } from '@/domain/usecases/add-program'
 import { Program } from '../entities/program'
 
-export class ProgramRepository implements AddProgramRepository {
+export class ProgramRepository implements AddProgramRepository, LoadProgramByIdRepository {
   async add (programData: AddProgramModel): Promise<ProgramModel> {
     const program = new Program()
     program.name = programData.name
@@ -14,5 +15,10 @@ export class ProgramRepository implements AddProgramRepository {
     program.equipment = programData.equipment
     const result = await program.save()
     return result
+  }
+
+  async loadById (id: string): Promise<ProgramModel> {
+    const program = await Program.findOneBy({ id })
+    return program
   }
 }
