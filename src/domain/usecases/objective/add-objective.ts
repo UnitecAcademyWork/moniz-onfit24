@@ -1,10 +1,6 @@
 import { ObjectiveModel } from '../../models/objective'
 
-export interface AddObjectiveModel {
-  name: string
-  icon: string
-  description: string
-}
+export type AddObjectiveModel = Omit<ObjectiveModel, 'id'>
 
 export interface AddObjective {
   add: (objective: AddObjectiveModel) => Promise<ObjectiveModel | null>
