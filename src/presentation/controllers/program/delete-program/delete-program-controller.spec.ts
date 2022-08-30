@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden } from '@/presentation/helpers/http/http-helper'
+import { forbidden, serverError } from '@/presentation/helpers/http/http-helper'
 import { DeleteProgramController } from './delete-program-controller'
 import { DeleteProgram, HttpRequest, ProgramModel } from './delete-program-controller.protocols'
 
@@ -52,5 +52,12 @@ describe('DeleteProgram Controller', () => {
     jest.spyOn(deleteProgramStub, 'delete').mockReturnValueOnce(null)
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('programId')))
+  })
+
+  test('should return 500 if DeleteProgram throws', async () => {
+    const { sut, deleteProgramStub } = makeSut()
+    jest.spyOn(deleteProgramStub, 'delete').mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
