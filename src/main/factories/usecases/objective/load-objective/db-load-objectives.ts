@@ -1,5 +1,5 @@
 import { ObjectiveRepository } from '@/infra/db/objective/objective-repository'
-import { DbLoadObjectives } from '@/data/usecases/load-objectives/db-load-objectives'
+import { DbLoadObjectives } from '@/data/usecases/objective/load-objectives/db-load-objectives'
 import { LoadObjectives } from '@/domain/usecases/load-objectives'
 
 export const makeDbLoadObjectives = (): LoadObjectives => {
