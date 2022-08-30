@@ -81,5 +81,11 @@ describe('Program Repository', () => {
       expect(loadedProgram.equipment).toEqual(['any_equipment', 'other_equipment'])
       expect(loadedProgram.objective).toEqual(['any_objective', 'other_objective'])
     })
+
+    test('should return null if no program is found', async () => {
+      const sut = makeSut()
+      const loadedProgram = await sut.loadById('invalid_id')
+      expect(loadedProgram).toBeNull()
+    })
   })
 })
