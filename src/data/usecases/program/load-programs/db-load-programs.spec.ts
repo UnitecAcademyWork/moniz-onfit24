@@ -21,7 +21,7 @@ const makeFakeProgram = (): ProgramModel[] => ([{
 
 const makeLoadProgramsRepository = (): LoadProgramsRepository => {
   class LoadProgramsRepositoryStub implements LoadProgramsRepository {
-    async load (): Promise<ProgramModel[]> {
+    async loadAll (): Promise<ProgramModel[]> {
       return Promise.resolve(makeFakeProgram())
     }
   }
@@ -43,7 +43,7 @@ const makeSut = (): SutTypes => {
 describe('LoadProgramById', () => {
   test('should call LoadProgramsRepository', async () => {
     const { sut, loadProgramsRepositoryStub } = makeSut()
-    const loadSpy = jest.spyOn(loadProgramsRepositoryStub, 'load')
+    const loadSpy = jest.spyOn(loadProgramsRepositoryStub, 'loadAll')
     await sut.load()
     expect(loadSpy).toHaveBeenCalled()
   })
@@ -56,7 +56,7 @@ describe('LoadProgramById', () => {
 
   test('should throw if LoadProgramsRepository throws', async () => {
     const { sut, loadProgramsRepositoryStub } = makeSut()
-    jest.spyOn(loadProgramsRepositoryStub, 'load').mockRejectedValueOnce(new Error())
+    jest.spyOn(loadProgramsRepositoryStub, 'loadAll').mockRejectedValueOnce(new Error())
     const promise = sut.load()
     await expect(promise).rejects.toThrow()
   })

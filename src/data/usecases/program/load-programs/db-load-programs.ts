@@ -4,7 +4,7 @@ export class DbLoadPrograms implements LoadPrograms {
   constructor (private readonly loadProgramsRepository: LoadProgramsRepository) {}
 
   async load (): Promise<ProgramModel[]> {
-    const programs = await this.loadProgramsRepository.load()
+    const programs = await this.loadProgramsRepository.loadAll()
     return programs
   }
 }

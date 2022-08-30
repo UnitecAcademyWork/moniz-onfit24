@@ -93,9 +93,11 @@ describe('Program Routes', () => {
     })
 
     test('should return 200 if a program is found', async () => {
+      const accessToken = await makeAccessToken()
       const program = await makeProgram()
       await request(app)
         .get(`/api/program/${program.id}`)
+        .set('x-access-token', accessToken)
         .send({
           name: 'any_name',
           description: 'any_description',
@@ -105,6 +107,32 @@ describe('Program Routes', () => {
           equipment: ['any_equipment', 'other_equipment']
         })
         .expect(200)
+    })
+  })
+
+  describe('get /program', () => {
+    test('should return 403 on load program without accessToken', async () => {
+      await request(app)
+        .get('/api/program')
+        .expect(403)
+    })
+
+    test('should return 200 on load objectives with valid accessToken', async () => {
+      const accessToken = await makeAccessToken()
+      await makeProgram()
+      await makeProgram()
+      await request(app)
+        .get('/api/program')
+        .set('x-access-token', accessToken)
+        .expect(200)
+    })
+
+    test('should return 204 on if list is empty', async () => {
+      const accessToken = await makeAccessToken()
+      await request(app)
+        .get('/api/program')
+        .set('x-access-token', accessToken)
+        .expect(204)
     })
   })
 })
