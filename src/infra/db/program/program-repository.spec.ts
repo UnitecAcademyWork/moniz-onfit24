@@ -29,7 +29,7 @@ describe('Program Repository', () => {
   describe('add()', () => {
     test('should return a program on add success', async () => {
       const sut = makeSut()
-      const program = await sut.add(makeProgram())
+      const program = await sut.add(makeProgram(), 'any_id')
       expect(program).toBeTruthy()
       expect(program.id).toBeTruthy()
       expect(program.name).toBe('any_name')
@@ -44,7 +44,7 @@ describe('Program Repository', () => {
   describe('loadById()', () => {
     test('should return a program on loadById success', async () => {
       const sut = makeSut()
-      const program = await sut.add(makeProgram())
+      const program = await sut.add(makeProgram(), 'any_id')
       const loadedProgram = await sut.loadById(program.id)
       expect(loadedProgram).toBeTruthy()
       expect(loadedProgram.id).toBeTruthy()
@@ -66,8 +66,8 @@ describe('Program Repository', () => {
   describe('loadAll()', () => {
     test('should load all programs on success', async () => {
       const sut = makeSut()
-      await sut.add(makeProgram())
-      await sut.add(makeProgram())
+      await sut.add(makeProgram(), 'any_id')
+      await sut.add(makeProgram(), 'other_id')
       const objectives = await sut.loadAll()
       expect(objectives.length).toBe(2)
       expect(objectives[0].name).toBe('any_name')

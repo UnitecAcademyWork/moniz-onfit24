@@ -45,7 +45,7 @@ describe('DbAddProgram', () => {
   test('should call addProgramRepository with correct values', async () => {
     const { sut, addProgramRepositoryStub } = makeSut()
     const addSpy = jest.spyOn(addProgramRepositoryStub, 'add')
-    await sut.add(makeFakeProgramData())
+    await sut.add(makeFakeProgramData(), 'any_id')
     expect(addSpy).toHaveBeenCalledWith({
       name: 'any_name',
       description: 'any_description',
@@ -53,12 +53,12 @@ describe('DbAddProgram', () => {
       duration: 'any_duration',
       objective: ['any_objective', 'other_objective'],
       equipment: ['any_equipment', 'other_equipment']
-    })
+    }, 'any_id')
   })
 
   test('should return a program on success', async () => {
     const { sut } = makeSut()
-    const program = await sut.add(makeFakeProgramData())
+    const program = await sut.add(makeFakeProgramData(), 'any_id')
     expect(program).toEqual(makeFakeProgram())
   })
 })

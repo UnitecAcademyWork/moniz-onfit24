@@ -6,15 +6,16 @@ import { AddProgramModel } from '@/domain/usecases/program/add-program'
 import { Program } from '../entities/program'
 
 export class ProgramRepository implements AddProgramRepository, LoadProgramByIdRepository, LoadProgramsRepository {
-  async add (programData: AddProgramModel): Promise<ProgramModel> {
+  async add (programData: AddProgramModel, programId: string): Promise<ProgramModel> {
     const program = new Program()
+    program.id = programId
     program.name = programData.name
     program.description = programData.description
     program.objective = programData.objective
     program.difficulty = programData.difficulty
     program.duration = programData.duration
     program.equipment = programData.equipment
-    const result = await program.save()
+    const result = await Program.save(program)
     return result
   }
 

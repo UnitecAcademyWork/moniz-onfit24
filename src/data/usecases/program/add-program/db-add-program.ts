@@ -3,8 +3,8 @@ import { AddProgram, AddProgramModel, AddProgramRepository, ProgramModel } from 
 export class DbAddProgram implements AddProgram {
   constructor (private readonly addProgramRepository: AddProgramRepository) {}
 
-  async add (programData: AddProgramModel): Promise<ProgramModel> {
-    const program = await this.addProgramRepository.add(programData)
+  async add (programData: AddProgramModel, id: string): Promise<ProgramModel> {
+    const program = await this.addProgramRepository.add(programData, id)
     return program
   }
 }
