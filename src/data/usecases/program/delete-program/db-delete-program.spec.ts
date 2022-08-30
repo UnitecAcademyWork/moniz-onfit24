@@ -39,4 +39,10 @@ describe('DbDeleteProgram', () => {
     await sut.delete('any_id')
     expect(deleteSpy).toHaveBeenCalledWith('any_id')
   })
+
+  test('should return deleted program on success', async () => {
+    const { sut } = makeSut()
+    const program = await sut.delete('any_id')
+    expect(program).toEqual(makeFakeProgram())
+  })
 })
