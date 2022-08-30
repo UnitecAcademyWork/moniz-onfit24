@@ -1,3 +1,5 @@
+import { InvalidParamError } from '@/presentation/errors'
+import { forbidden } from '@/presentation/helpers/http/http-helper'
 import { DeleteProgramController } from './delete-program-controller'
 import { DeleteProgram, HttpRequest, ProgramModel } from './delete-program-controller.protocols'
 
@@ -43,5 +45,12 @@ describe('DeleteProgram Controller', () => {
     const deleteSpy = jest.spyOn(deleteProgramStub, 'delete')
     await sut.handle(makeFakeRequest())
     expect(deleteSpy).toHaveBeenCalledWith('any_id')
+  })
+
+  test('should return 403 DeleteProgram returns null', async () => {
+    const { sut, deleteProgramStub } = makeSut()
+    jest.spyOn(deleteProgramStub, 'delete').mockReturnValueOnce(null)
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('programId')))
   })
 })
