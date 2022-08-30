@@ -5,6 +5,7 @@ export const routeAdapter = (controller: Controller) => {
   return async (req: Request, res: Response) => {
     const httpRequest: HttpRequest = {
       body: req.body,
+      params: req.params,
       files: req.files
     }
     const httpResponse = await controller.handle(httpRequest)

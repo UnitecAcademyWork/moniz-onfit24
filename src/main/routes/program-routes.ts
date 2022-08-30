@@ -5,4 +5,5 @@ import { adminAuth } from '../middlewares/admin-auth'
 
 export default (router: Router): void => {
   router.post('/program', adminAuth, routeAdapter(makeAddProgramController()))
+  router.get('/program/:programId', routeAdapter(makeAddProgramController()))
 }
