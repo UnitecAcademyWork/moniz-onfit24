@@ -45,4 +45,11 @@ describe('DbDeleteProgram', () => {
     const program = await sut.delete('any_id')
     expect(program).toEqual(makeFakeProgram())
   })
+
+  test('should return null if DeleteProgramRepository fails', async () => {
+    const { sut, deleteProgramRepositoryStub } = makeSut()
+    jest.spyOn(deleteProgramRepositoryStub, 'delete').mockReturnValueOnce(null)
+    const program = await sut.delete('any_id')
+    expect(program).toBeNull()
+  })
 })
