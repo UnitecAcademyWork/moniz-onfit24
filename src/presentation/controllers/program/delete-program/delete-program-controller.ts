@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden, serverError } from '@/presentation/helpers/http/http-helper'
+import { forbidden, noContent, serverError } from '@/presentation/helpers/http/http-helper'
 import { Controller, DeleteProgram, HttpRequest, HttpResponse } from './delete-program-controller.protocols'
 
 export class DeleteProgramController implements Controller {
@@ -11,6 +11,7 @@ export class DeleteProgramController implements Controller {
       if (!program) {
         return forbidden(new InvalidParamError('programId'))
       }
+      return noContent()
     } catch (error) {
       return serverError(error)
     }
