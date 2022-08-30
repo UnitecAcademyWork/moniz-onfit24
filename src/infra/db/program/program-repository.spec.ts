@@ -80,4 +80,19 @@ describe('Program Repository', () => {
       expect(objectives.length).toBe(0)
     })
   })
+
+  describe('delete()', () => {
+    test('should delete program on success', async () => {
+      const sut = makeSut()
+      await sut.add(makeProgram(), 'any_id')
+      const objectives = await sut.delete('any_id')
+      expect(objectives).toBeTruthy()
+    })
+
+    test('should return null if no program is found', async () => {
+      const sut = makeSut()
+      const objectives = await sut.delete('any_id')
+      expect(objectives).toBeNull()
+    })
+  })
 })

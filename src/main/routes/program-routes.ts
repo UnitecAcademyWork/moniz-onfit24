@@ -5,10 +5,13 @@ import { makeLoadProgramController } from '../factories/controllers/program/load
 import { makeLoadProgramsController } from '../factories/controllers/program/load-programs/load-programs-controller-factory'
 import { auth } from '../middlewares/auth'
 import { makeUpdateProgramController } from '../factories/controllers/program/update-program/add-program-controller-factory'
+import { adminAuth } from '../middlewares/admin-auth'
+import { makeDeleteProgramController } from '../factories/controllers/program/delete-program/delete-program-controller-factory'
 
 export default (router: Router): void => {
-  router.post('/program', auth, routeAdapter(makeAddProgramController()))
-  router.put('/program/:programId', routeAdapter(makeUpdateProgramController()))
+  router.post('/program', adminAuth, routeAdapter(makeAddProgramController()))
+  router.put('/program/:programId', adminAuth, routeAdapter(makeUpdateProgramController()))
   router.get('/program', auth, routeAdapter(makeLoadProgramsController()))
   router.get('/program/:programId', auth, routeAdapter(makeLoadProgramController()))
+  router.delete('/program/:programId', adminAuth, routeAdapter(makeDeleteProgramController()))
 }

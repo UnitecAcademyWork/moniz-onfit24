@@ -1,11 +1,12 @@
 import { AddProgramRepository } from '@/data/protocols/db/program/add-program-repository'
+import { DeleteProgramRepository } from '@/data/protocols/db/program/delete-program-repository'
 import { LoadProgramByIdRepository } from '@/data/protocols/db/program/load-program-by-id-repository'
 import { LoadProgramsRepository } from '@/data/protocols/db/program/load-programs-repository'
 import { ProgramModel } from '@/domain/models/program'
 import { AddProgramModel } from '@/domain/usecases/program/add-program'
 import { Program } from '../entities/program'
 
-export class ProgramRepository implements AddProgramRepository, LoadProgramByIdRepository, LoadProgramsRepository {
+export class ProgramRepository implements AddProgramRepository, LoadProgramByIdRepository, LoadProgramsRepository, DeleteProgramRepository {
   async add (programData: AddProgramModel, programId: string): Promise<ProgramModel> {
     const program = new Program()
     program.id = programId
@@ -27,5 +28,13 @@ export class ProgramRepository implements AddProgramRepository, LoadProgramByIdR
   async loadAll (): Promise<ProgramModel[]> {
     const programs = await Program.find()
     return programs
+  }
+
+  async delete (programId: string): Promise<ProgramModel> {
+    const program = await Program.findOneBy({ id: programId })
+    if (!program) {
+      return null
+    }
+    return await Program.remove(program)
   }
 }

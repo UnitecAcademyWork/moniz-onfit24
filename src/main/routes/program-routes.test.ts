@@ -135,4 +135,30 @@ describe('Program Routes', () => {
         .expect(204)
     })
   })
+
+  describe('delete /program/:programId', () => {
+    test('should return 403 on delete program without accessToken', async () => {
+      const program = await makeProgram()
+      await request(app)
+        .delete(`/api/program/${program.id}`)
+        .expect(403)
+    })
+
+    test('should return 204 on delete program with valid accessToken', async () => {
+      const accessToken = await makeAccessToken()
+      const program = await makeProgram()
+      await request(app)
+        .delete(`/api/program/${program.id}`)
+        .set('x-access-token', accessToken)
+        .expect(204)
+    })
+
+    test('should return 403 on if no program is found', async () => {
+      const accessToken = await makeAccessToken()
+      await request(app)
+        .delete('/api/program/wrong_id')
+        .set('x-access-token', accessToken)
+        .expect(403)
+    })
+  })
 })
