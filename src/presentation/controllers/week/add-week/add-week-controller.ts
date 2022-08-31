@@ -12,6 +12,9 @@ export class AddWeekController implements Controller {
     if (error) {
       return badRequest(error)
     }
-    return Promise.resolve(null)
+    const weekId = httpRequest.params.weekId
+    const { programId, goals, exercises } = httpRequest.body
+    await this.addWeek.add({ programId, goals, exercises }, weekId)
+    return null
   }
 }
