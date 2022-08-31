@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden, serverError } from '@/presentation/helpers/http/http-helper'
+import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse, LoadWeekById } from './load-week-controller.protocols'
 
 export class LoadWeekController implements Controller {
@@ -11,7 +11,7 @@ export class LoadWeekController implements Controller {
       if (!week) {
         return forbidden(new InvalidParamError('weekId'))
       }
-      return null
+      return ok(week)
     } catch (error) {
       return serverError(error)
     }
