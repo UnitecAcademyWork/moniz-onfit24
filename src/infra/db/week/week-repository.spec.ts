@@ -76,4 +76,21 @@ describe('Week Repository', () => {
       expect(otherWeek).toEqual(week)
     })
   })
+
+  describe('loadById()', () => {
+    test('should return a week on loadById success', async () => {
+      const sut = makeSut()
+      const weekData = await sut.add(await makeFakeWeekData())
+      const week = await sut.loadById(weekData.id)
+      expect(week).toBeTruthy()
+      expect(week.id).toBeTruthy()
+      expect(week.goals).toEqual(['any_goal', 'other_goal'])
+    })
+
+    test('should return null if no week is found', async () => {
+      const sut = makeSut()
+      const week = await sut.loadById('invalid_id')
+      expect(week).toBeNull()
+    })
+  })
 })
