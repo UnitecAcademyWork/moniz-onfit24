@@ -46,4 +46,11 @@ describe('DbLoadWeekById Usecase', () => {
     const week = await sut.loadById('any_id')
     expect(week).toEqual(makeFakeWeek())
   })
+
+  test('should throw if LoadWeekByIdRepository throws', async () => {
+    const { sut, loadWeekByIdRepositoryStub } = makeSut()
+    jest.spyOn(loadWeekByIdRepositoryStub, 'loadById').mockRejectedValueOnce(new Error())
+    const promise = sut.loadById('any_id')
+    await expect(promise).rejects.toThrow()
+  })
 })
