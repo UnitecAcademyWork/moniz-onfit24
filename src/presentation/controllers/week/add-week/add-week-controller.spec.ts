@@ -27,7 +27,7 @@ const makeFakeRequest = (): HttpRequest => ({
     }]
   },
   params: {
-    programId: 'any_id'
+    weekId: 'any_id'
   }
 })
 
@@ -77,5 +77,21 @@ describe('AddWeek Controller', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_field')))
+  })
+
+  test('should call addWeek with correct values', async () => {
+    const { sut, addWeekStub } = makeSut()
+    const addSpy = jest.spyOn(addWeekStub, 'add')
+    await sut.handle(makeFakeRequest())
+    expect(addSpy).toHaveBeenCalledWith({
+      programId: 'program_id',
+      goals: ['any_goal', 'other_goal'],
+      exercises: [{
+        duration: 'any_duration',
+        title: 'any_title',
+        uri: 'any_uri',
+        url: 'any_url'
+      }]
+    }, 'any_id')
   })
 })
