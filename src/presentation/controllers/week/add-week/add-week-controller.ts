@@ -1,4 +1,5 @@
-import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { InvalidParamError } from '@/presentation/errors'
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddWeek, Controller, HttpRequest, HttpResponse, Validation } from './add-week-controller.protocols'
 
 export class AddWeekController implements Controller {
@@ -16,6 +17,9 @@ export class AddWeekController implements Controller {
       const weekId = httpRequest.params.weekId
       const { programId, goals, exercises } = httpRequest.body
       const week = await this.addWeek.add({ programId, goals, exercises }, weekId)
+      if (!week) {
+        return forbidden(new InvalidParamError('programId'))
+      }
       return ok(week)
     } catch (error) {
       return serverError(error)
