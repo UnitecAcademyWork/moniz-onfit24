@@ -7,7 +7,7 @@ import { AddProgramModel } from '@/domain/usecases/program/add-program'
 import { Program } from '../entities/program'
 
 export class ProgramRepository implements AddProgramRepository, LoadProgramByIdRepository, LoadProgramsRepository, DeleteProgramRepository {
-  async add (programData: AddProgramModel, programId: string): Promise<ProgramModel> {
+  async add (programData: AddProgramModel, programId?: string): Promise<ProgramModel> {
     const program = new Program()
     program.id = programId
     program.name = programData.name
