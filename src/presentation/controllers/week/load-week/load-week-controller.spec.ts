@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden, serverError } from '@/presentation/helpers/http/http-helper'
+import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { LoadWeekController } from './load-week-controller'
 import { HttpRequest, LoadWeekById, WeekModel } from './load-week-controller.protocols'
 
@@ -56,10 +56,16 @@ describe('LoadWeek Controller', () => {
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('weekId')))
   })
 
-  test('should return 500 if LoadProgramById throws', async () => {
+  test('should return 500 if LoadWeekById throws', async () => {
     const { sut, loadWeekByIdStub } = makeSut()
     jest.spyOn(loadWeekByIdStub, 'loadById').mockRejectedValueOnce(new Error())
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ok(makeFakeWeek()))
   })
 })
