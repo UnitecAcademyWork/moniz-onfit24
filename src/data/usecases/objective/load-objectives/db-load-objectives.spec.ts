@@ -1,6 +1,5 @@
-import { ObjectiveModel } from '../add-objective/db-add-objectve.protocols'
 import { DbLoadObjectives } from './db-load-objectives'
-import { LoadObjectivesRepository } from './db-load-objectives.protocols'
+import { LoadObjectivesRepository, ObjectiveModel } from './db-load-objectives.protocols'
 
 const makeFakeObjective = (): ObjectiveModel[] => {
   return [{

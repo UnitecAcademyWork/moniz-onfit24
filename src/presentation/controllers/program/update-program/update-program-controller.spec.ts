@@ -1,7 +1,7 @@
 import { ProgramModel } from '@/domain/models/program'
 import { AddProgramModel } from '@/domain/usecases/program/add-program'
-import { InvalidParamError, ServerError } from '@/presentation/errors'
-import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { ServerError } from '@/presentation/errors'
+import { ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { UpdateProgramController } from './update-program-controller'
 import { AddProgram, HttpRequest } from './update-program-controller.protocols'
 
@@ -66,13 +66,6 @@ describe('Update Program Controller', () => {
       objective: ['any_objective', 'other_objective'],
       equipment: ['any_equipment', 'other_equipment']
     }, 'any_id')
-  })
-
-  test('should return 403 if LoadProgramById returns null', async () => {
-    const { sut, addProgramStub } = makeSut()
-    jest.spyOn(addProgramStub, 'add').mockResolvedValueOnce(null)
-    const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(forbidden(new InvalidParamError('programId')))
   })
 
   test('should return 500 if AddProgram throws', async () => {
