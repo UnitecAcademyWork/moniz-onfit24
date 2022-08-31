@@ -4,7 +4,7 @@ export class DbLoadWeekById implements LoadWeekById {
   constructor (private readonly loadWeekByIdRepository: LoadWeekByIdRepository) {}
 
   async loadById (weekId: string): Promise<WeekModel> {
-    await this.loadWeekByIdRepository.loadById(weekId)
-    return null
+    const week = await this.loadWeekByIdRepository.loadById(weekId)
+    return week
   }
 }
