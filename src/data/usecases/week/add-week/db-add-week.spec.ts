@@ -62,4 +62,10 @@ describe('DbAddWeek', () => {
       }]
     }, 'any_id')
   })
+
+  test('should return a training week on success', async () => {
+    const { sut } = makeSut()
+    const week = await sut.add(makeFakeWeekData(), 'any_id')
+    expect(week).toEqual(makeFakeWeek())
+  })
 })
