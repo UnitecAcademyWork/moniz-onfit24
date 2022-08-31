@@ -1,4 +1,4 @@
-import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddWeek, Controller, HttpRequest, HttpResponse, Validation } from './add-week-controller.protocols'
 
 export class AddWeekController implements Controller {
@@ -15,8 +15,8 @@ export class AddWeekController implements Controller {
       }
       const weekId = httpRequest.params.weekId
       const { programId, goals, exercises } = httpRequest.body
-      await this.addWeek.add({ programId, goals, exercises }, weekId)
-      return null
+      const week = await this.addWeek.add({ programId, goals, exercises }, weekId)
+      return ok(week)
     } catch (error) {
       return serverError(error)
     }
