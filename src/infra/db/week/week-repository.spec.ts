@@ -66,5 +66,14 @@ describe('Week Repository', () => {
       const week = await sut.add(weekData)
       expect(week).toBeNull()
     })
+
+    test('should edit a training week if week Id is provided', async () => {
+      const sut = makeSut()
+      const week = await sut.add(await makeFakeWeekData())
+      const weekData = await makeFakeWeekData()
+      weekData.programId = week.programId
+      const otherWeek = await sut.add(weekData, week.id)
+      expect(otherWeek).toEqual(week)
+    })
   })
 })
