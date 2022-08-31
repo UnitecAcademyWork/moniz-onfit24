@@ -1,7 +1,7 @@
 import { AddWeekController } from './add-week-controller'
 import { AddWeek, AddWeekModel, HttpRequest, Validation, WeekModel } from './add-week-controller.protocols'
 import { MissingParamError, ServerError } from '@/presentation/errors'
-import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
 
 const makeFakeWeek = (): WeekModel => ({
   id: 'any_id',
@@ -100,5 +100,11 @@ describe('AddWeek Controller', () => {
     jest.spyOn(addWeekStub, 'add').mockImplementationOnce(async () => { return await Promise.reject(new Error()) })
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new ServerError('')))
+  })
+
+  test('should return 200 if valid data is provided', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ok(makeFakeWeek()))
   })
 })
