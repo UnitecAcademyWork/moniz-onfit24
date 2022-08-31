@@ -5,6 +5,7 @@
     "Decrypter",
     "encrypter",
     "fileupload",
+    "middlewares",
     "signup",
     "typeorm",
     "Usecase",

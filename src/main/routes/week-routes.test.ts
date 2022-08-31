@@ -7,6 +7,8 @@ import { sign } from 'jsonwebtoken'
 import env from '../config/env'
 import { ProgramModel } from '@/domain/models/program'
 import { Program } from '@/infra/db/entities/program'
+import { WeekModel } from '@/domain/models/week'
+import { Week } from '@/infra/db/entities/week'
 
 const makeAccessToken = async (): Promise<string> => {
   const password = await hash('123456', 12)
@@ -33,6 +35,19 @@ const makeProgram = async (): Promise<ProgramModel> => {
   program.objective = ['any_objective', 'other_objective']
   program.equipment = ['any_equipment', 'other_equipment']
   return await program.save()
+}
+
+const makeWeek = async (): Promise<WeekModel> => {
+  const week = new Week()
+  week.programId = await (await makeProgram()).id
+  week.goals = ['any_goal']
+  week.exercises = [{
+    duration: 'any_duration',
+    title: 'any_title',
+    uri: 'any_uri',
+    url: 'any_url'
+  }]
+  return week
 }
 
 describe('Program Routes', () => {
@@ -66,7 +81,7 @@ describe('Program Routes', () => {
         .expect(200)
     })
 
-    test('should return 403 on add week', async () => {
+    test('should return 403 on add week with invalid programId', async () => {
       const accessToken = await makeAccessToken()
       await request(app)
         .post('/api/week')
@@ -99,6 +114,27 @@ describe('Program Routes', () => {
           }]
         })
         .expect(403)
+    })
+  })
+
+  describe('PUT /week', () => {
+    test('should return 200 on update week', async () => {
+      const accessToken = await makeAccessToken()
+      const week = await makeWeek()
+      await request(app)
+        .put(`/api/week/${week.id}`)
+        .set('x-access-token', accessToken)
+        .send({
+          programId: week.programId,
+          goals: ['any_goal', 'other_goal'],
+          exercises: [{
+            title: 'any_title',
+            url: 'any_url',
+            duration: 'any_duration',
+            uri: 'any_uri'
+          }]
+        })
+        .expect(200)
     })
   })
 })

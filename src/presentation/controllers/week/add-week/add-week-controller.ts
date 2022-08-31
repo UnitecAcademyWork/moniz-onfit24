@@ -14,9 +14,8 @@ export class AddWeekController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const weekId = httpRequest.params.weekId
       const { programId, goals, exercises } = httpRequest.body
-      const week = await this.addWeek.add({ programId, goals, exercises }, weekId)
+      const week = await this.addWeek.add({ programId, goals, exercises })
       if (!week) {
         return forbidden(new InvalidParamError('programId'))
       }
