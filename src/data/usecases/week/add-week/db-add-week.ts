@@ -3,8 +3,8 @@ import { AddWeek, AddWeekModel, AddWeekRepository, WeekModel } from './db-add-we
 export class DbAddWeek implements AddWeek {
   constructor (private readonly addWeekRepository: AddWeekRepository) {}
 
-  async add (week: AddWeekModel, weekId: string): Promise<WeekModel> {
-    await this.addWeekRepository.add(week, weekId)
-    return Promise.resolve(null)
+  async add (weekData: AddWeekModel, weekId?: string): Promise<WeekModel> {
+    const week = await this.addWeekRepository.add(weekData, weekId)
+    return week
   }
 }
