@@ -68,4 +68,11 @@ describe('DbAddWeek', () => {
     const week = await sut.add(makeFakeWeekData(), 'any_id')
     expect(week).toEqual(makeFakeWeek())
   })
+
+  test('should return throw if AddWeekRepository throws', async () => {
+    const { sut, addWeekRepositoryStub } = makeSut()
+    jest.spyOn(addWeekRepositoryStub, 'add').mockRejectedValueOnce(new Error())
+    const promise = sut.add(makeFakeWeekData(), 'any_id')
+    await expect(promise).rejects.toThrow()
+  })
 })
