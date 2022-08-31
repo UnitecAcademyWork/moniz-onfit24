@@ -1,10 +1,11 @@
 import { AddWeekRepository } from '@/data/protocols/db/week/add-week-repository'
+import { LoadWeekByIdRepository } from '@/data/protocols/db/week/load-week-by-id-respository'
 import { WeekModel } from '@/domain/models/week'
 import { AddWeekModel } from '@/domain/usecases/week/add-week'
 import { Program } from '../entities/program'
 import { Week } from '../entities/week'
 
-export class WeekRepository implements AddWeekRepository {
+export class WeekRepository implements AddWeekRepository, LoadWeekByIdRepository {
   async add (weekData: AddWeekModel, weekId?: string): Promise<WeekModel> {
     const program = await Program.findOneBy({ id: weekData.programId })
     if (!program) {
@@ -19,5 +20,9 @@ export class WeekRepository implements AddWeekRepository {
     await Week.save(week)
     delete week.program
     return week
+  }
+
+  async loadById (weekId: string): Promise<WeekModel> {
+    return await Week.findOneBy({ id: weekId })
   }
 }
