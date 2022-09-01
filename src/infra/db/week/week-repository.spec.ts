@@ -1,11 +1,8 @@
-import { AddProgramModel } from '@/domain/usecases/program/add-program'
 import { AddWeekModel } from '@/domain/usecases/week/add-week'
-import { ProgramRepository } from '../program/program-repository'
 import { TypeormHelper } from '../typeorm-helper'
 import { WeekRepository } from './week-repository'
 
 const makeFakeWeekData = async (): Promise<AddWeekModel> => ({
-  programId: await makeProgramId(),
   goals: ['any_goal', 'other_goal'],
   exercises: [{
     duration: 'any_duration',
@@ -20,21 +17,6 @@ const makeFakeWeekData = async (): Promise<AddWeekModel> => ({
     url: 'any_url'
   }]
 })
-
-const makeProgramData = (): AddProgramModel => ({
-  name: 'any_name',
-  url: 'any_url',
-  description: 'any_description',
-  difficulty: 'any_difficulty',
-  duration: 'any_duration',
-  equipment: ['any_equipment', 'other_equipment'],
-  objective: ['any_objective', 'other_objective']
-})
-
-const makeProgramId = async (): Promise<string> => {
-  const programId = await (await new ProgramRepository().add(makeProgramData())).id
-  return programId
-}
 
 describe('Week Repository', () => {
   beforeAll(async () => {
@@ -59,19 +41,10 @@ describe('Week Repository', () => {
       expect(week.id).toBeTruthy()
     })
 
-    test('should null if no program is found', async () => {
-      const sut = makeSut()
-      const weekData = await makeFakeWeekData()
-      weekData.programId = 'wrong_id'
-      const week = await sut.add(weekData)
-      expect(week).toBeNull()
-    })
-
     test('should edit a training week if week Id is provided', async () => {
       const sut = makeSut()
       const week = await sut.add(await makeFakeWeekData())
       const weekData = await makeFakeWeekData()
-      weekData.programId = week.programId
       const otherWeek = await sut.add(weekData, week.id)
       expect(otherWeek).toEqual(week)
     })

@@ -11,7 +11,6 @@ const makeFakeRequest = (): HttpRequest => ({
 
 const makeFakeWeek = (): WeekModel => ({
   id: 'any_id',
-  programId: 'program_id',
   goals: ['any_goal', 'other_goal'],
   exercises: [{
     duration: 'any_duration',

@@ -1,11 +1,10 @@
 import { AddWeekController } from './add-week-controller'
 import { AddWeek, AddWeekModel, HttpRequest, Validation, WeekModel } from './add-week-controller.protocols'
-import { InvalidParamError, MissingParamError, ServerError } from '@/presentation/errors'
-import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { MissingParamError, ServerError } from '@/presentation/errors'
+import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
 
 const makeFakeWeek = (): WeekModel => ({
   id: 'any_id',
-  programId: 'program_id',
   goals: ['any_goal', 'other_goal'],
   exercises: [{
     duration: 'any_duration',
@@ -81,7 +80,6 @@ describe('AddWeek Controller', () => {
     const addSpy = jest.spyOn(addWeekStub, 'add')
     await sut.handle(makeFakeRequest())
     expect(addSpy).toHaveBeenCalledWith({
-      programId: 'program_id',
       goals: ['any_goal', 'other_goal'],
       exercises: [{
         duration: 'any_duration',
@@ -103,12 +101,5 @@ describe('AddWeek Controller', () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(ok(makeFakeWeek()))
-  })
-
-  test('should return 403 if invalid programId is provided', async () => {
-    const { sut, addWeekStub } = makeSut()
-    jest.spyOn(addWeekStub, 'add').mockReturnValueOnce(null)
-    const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(forbidden(new InvalidParamError('programId')))
   })
 })

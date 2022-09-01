@@ -1,6 +1,5 @@
 export interface WeekModel {
   id: string
-  programId: string
   goals: string[]
   exercises: ExerciseModel[]
 }

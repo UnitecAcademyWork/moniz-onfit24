@@ -3,7 +3,6 @@ import { AddWeekModel, AddWeekRepository, WeekModel } from './db-add-week.protoc
 
 const makeFakeWeek = (): WeekModel => ({
   id: 'any_id',
-  programId: 'program_id',
   goals: ['any_goal', 'other_goal'],
   exercises: [{
     duration: 'any_duration',
@@ -14,7 +13,6 @@ const makeFakeWeek = (): WeekModel => ({
 })
 
 const makeFakeWeekData = (): AddWeekModel => ({
-  programId: 'program_id',
   goals: ['any_goal', 'other_goal'],
   exercises: [{
     duration: 'any_duration',
@@ -52,7 +50,6 @@ describe('DbAddWeek', () => {
     const addSpy = jest.spyOn(addWeekRepositoryStub, 'add')
     await sut.add(makeFakeWeekData(), 'any_id')
     expect(addSpy).toHaveBeenCalledWith({
-      programId: 'program_id',
       goals: ['any_goal', 'other_goal'],
       exercises: [{
         duration: 'any_duration',

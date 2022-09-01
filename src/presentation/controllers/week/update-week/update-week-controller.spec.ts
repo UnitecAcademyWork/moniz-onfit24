@@ -5,7 +5,6 @@ import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-hel
 
 const makeFakeWeek = (): WeekModel => ({
   id: 'any_id',
-  programId: 'program_id',
   goals: ['any_goal', 'other_goal'],
   exercises: [{
     duration: 'any_duration',
@@ -17,7 +16,6 @@ const makeFakeWeek = (): WeekModel => ({
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
-    programId: 'program_id',
     goals: ['any_goal', 'other_goal'],
     exercises: [{
       duration: 'any_duration',
@@ -58,7 +56,6 @@ describe('AddWeek Controller', () => {
     const addSpy = jest.spyOn(addWeekStub, 'add')
     await sut.handle(makeFakeRequest())
     expect(addSpy).toHaveBeenCalledWith({
-      programId: 'program_id',
       goals: ['any_goal', 'other_goal'],
       exercises: [{
         duration: 'any_duration',

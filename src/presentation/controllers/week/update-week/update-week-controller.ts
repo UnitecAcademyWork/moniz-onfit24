@@ -10,8 +10,8 @@ export class UpdateWeekController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const weekId = httpRequest.params.weekId
-      const { programId, goals, exercises } = httpRequest.body
-      const week = await this.addWeek.add({ programId, goals, exercises }, weekId)
+      const { goals, exercises } = httpRequest.body
+      const week = await this.addWeek.add({ goals, exercises }, weekId)
       if (!week) {
         return forbidden(new InvalidParamError('programId'))
       }

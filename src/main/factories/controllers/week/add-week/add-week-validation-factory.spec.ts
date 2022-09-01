@@ -8,7 +8,7 @@ describe('AddWeekValidation Factory', () => {
   test('should call ValidationComposite with all validations', () => {
     makeAddWeekValidation()
     const validations: Validation[] = []
-    for (const field of ['programId', 'goals', 'exercises']) {
+    for (const field of ['goals', 'exercises']) {
       validations.push(new RequiredFieldValidation(field))
     }
     expect(ValidationComposite).toHaveBeenCalledWith(validations)
