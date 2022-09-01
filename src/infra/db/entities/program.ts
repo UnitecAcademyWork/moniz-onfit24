@@ -1,5 +1,6 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { ProgramModel } from '@/domain/models/program'
+import { Week } from './week'
 
 @Entity('program')
 export class Program extends BaseEntity implements ProgramModel {
@@ -26,6 +27,10 @@ export class Program extends BaseEntity implements ProgramModel {
 
   @Column('simple-array')
     equipment?: string[]
+
+  @ManyToMany(() => Week)
+  @JoinTable()
+    weeks: Week[]
 
   @CreateDateColumn()
     createdAt: Date
