@@ -32,10 +32,11 @@ const makeWeek = async (): Promise<WeekModel> => {
     uri: 'any_uri',
     url: 'any_url'
   }]
+  await Week.save(week)
   return week
 }
 
-describe('Program Routes', () => {
+describe('Week Routes', () => {
   beforeAll(async () => {
     await TypeormHelper.create()
   })
@@ -96,6 +97,32 @@ describe('Program Routes', () => {
             uri: 'any_uri'
           }]
         })
+        .expect(200)
+    })
+  })
+
+  describe('get /week/weekId', () => {
+    test('should return 403 if no access token is provided', async () => {
+      const week = await makeWeek()
+      await request(app)
+        .get(`/api/week/${week.id}`)
+        .expect(403)
+    })
+
+    test('should return 403 if no week is found', async () => {
+      const accessToken = await makeAccessToken()
+      await request(app)
+        .get('/api/week/wrong_id')
+        .set('x-access-token', accessToken)
+        .expect(403)
+    })
+
+    test('should return 200 if a week is found', async () => {
+      const accessToken = await makeAccessToken()
+      const week = await makeWeek()
+      await request(app)
+        .get(`/api/week/${week.id}`)
+        .set('x-access-token', accessToken)
         .expect(200)
     })
   })
