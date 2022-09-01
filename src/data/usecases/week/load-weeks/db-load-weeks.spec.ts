@@ -55,4 +55,11 @@ describe('DbLoadWeeks', () => {
     const weeks = await sut.loadAll()
     expect(weeks).toEqual(makeFakeWeeks())
   })
+
+  test('should throw if LoadWeeksRepository throws', async () => {
+    const { sut, loadWeeksRepositoryStub } = makeSut()
+    jest.spyOn(loadWeeksRepositoryStub, 'loadAll').mockRejectedValueOnce(new Error())
+    const promise = sut.loadAll()
+    await expect(promise).rejects.toThrow()
+  })
 })
