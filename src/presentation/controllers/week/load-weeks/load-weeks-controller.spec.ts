@@ -1,3 +1,4 @@
+import { ok } from '@/presentation/helpers/http/http-helper'
 import { LoadWeeksController } from './load-weeks-controller'
 import { LoadWeeks, WeekModel } from './load-weeks-controller.protocols'
 
@@ -48,5 +49,11 @@ describe('LoadWeeks Controller', () => {
     const loadAllSpy = jest.spyOn(loadWeeksStub, 'loadAll')
     await sut.handle({})
     expect(loadAllSpy).toHaveBeenCalled()
+  })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual(ok(makeFakeWeeks()))
   })
 })
