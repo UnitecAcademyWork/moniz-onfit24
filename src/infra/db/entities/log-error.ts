@@ -1,6 +1,6 @@
 import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
-@Entity('logError')
+@Entity('log_error')
 export class LogError extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
     id: string
