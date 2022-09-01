@@ -1,4 +1,4 @@
-import { ok } from '@/presentation/helpers/http/http-helper'
+import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { LoadWeeksController } from './load-weeks-controller'
 import { LoadWeeks, WeekModel } from './load-weeks-controller.protocols'
 
@@ -55,5 +55,19 @@ describe('LoadWeeks Controller', () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(ok(makeFakeWeeks()))
+  })
+
+  test('should return 204 returns empty', async () => {
+    const { sut, loadWeeksStub } = makeSut()
+    jest.spyOn(loadWeeksStub, 'loadAll').mockReturnValueOnce(Promise.resolve([]))
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual(noContent())
+  })
+
+  test('should return 500 if LoadWeeks throws', async () => {
+    const { sut, loadWeeksStub } = makeSut()
+    jest.spyOn(loadWeeksStub, 'loadAll').mockReturnValueOnce(Promise.reject(new Error()))
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
