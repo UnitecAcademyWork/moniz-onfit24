@@ -80,7 +80,7 @@ describe('Objective Routes', () => {
         .expect(200)
     })
 
-    test('should return 200 on load objectives with valid accessToken', async () => {
+    test('should return 204 if list is empty', async () => {
       const accessToken = await makeAccessToken()
       await request(app)
         .get('/api/objective')

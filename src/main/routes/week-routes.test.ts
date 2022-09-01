@@ -126,4 +126,29 @@ describe('Week Routes', () => {
         .expect(200)
     })
   })
+
+  describe('get /weeks', () => {
+    test('should return 403 on add weeks without accessToken', async () => {
+      await request(app)
+        .get('/api/week')
+        .expect(403)
+    })
+
+    test('should return 200 on load weeks with valid accessToken', async () => {
+      const accessToken = await makeAccessToken()
+      await makeWeek()
+      await request(app)
+        .get('/api/week')
+        .set('x-access-token', accessToken)
+        .expect(200)
+    })
+
+    test('should return 204 if list is empty', async () => {
+      const accessToken = await makeAccessToken()
+      await request(app)
+        .get('/api/week')
+        .set('x-access-token', accessToken)
+        .expect(204)
+    })
+  })
 })

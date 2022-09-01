@@ -66,4 +66,22 @@ describe('Week Repository', () => {
       expect(week).toBeNull()
     })
   })
+
+  describe('loadAll()', () => {
+    test('should load all objectives on success', async () => {
+      const sut = makeSut()
+      await sut.add(await makeFakeWeekData())
+      await sut.add(await makeFakeWeekData())
+      const weeks = await sut.loadAll()
+      expect(weeks.length).toBe(2)
+      expect(weeks[0].goals).toEqual(['any_goal', 'other_goal'])
+      expect(weeks[1].goals).toEqual(['any_goal', 'other_goal'])
+    })
+
+    test('should load empty list', async () => {
+      const sut = makeSut()
+      const weeks = await sut.loadAll()
+      expect(weeks.length).toBe(0)
+    })
+  })
 })
