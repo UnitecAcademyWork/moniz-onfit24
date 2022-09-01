@@ -49,4 +49,10 @@ describe('DbLoadWeeks', () => {
     await sut.loadAll()
     expect(loadAllSpy).toHaveBeenCalled()
   })
+
+  test('should return Weeks on success ', async () => {
+    const { sut } = makeSut()
+    const weeks = await sut.loadAll()
+    expect(weeks).toEqual(makeFakeWeeks())
+  })
 })
