@@ -64,4 +64,11 @@ describe('DbAddWeekToProgram', () => {
     const program = await sut.associate('program_id', 'week_id')
     expect(program).toBeNull()
   })
+
+  test('should throw if AddWeekToProgramRepository throws', async () => {
+    const { sut, addWeekToProgramRepositoryStub } = makeSut()
+    jest.spyOn(addWeekToProgramRepositoryStub, 'associate').mockRejectedValueOnce(new Error())
+    const promise = sut.associate('program_id', 'week_id')
+    await expect(promise).rejects.toThrow()
+  })
 })
