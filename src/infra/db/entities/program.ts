@@ -28,7 +28,7 @@ export class Program extends BaseEntity implements ProgramModel {
   @Column('simple-array')
     equipment?: string[]
 
-  @ManyToMany(() => Week)
+  @ManyToMany(() => Week, { onDelete: 'CASCADE' })
   @JoinTable()
     weeks: Week[]
 

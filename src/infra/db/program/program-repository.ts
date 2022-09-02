@@ -5,6 +5,7 @@ import { LoadProgramsRepository } from '@/data/protocols/db/program/load-program
 import { ProgramModel } from '@/domain/models/program'
 import { AddProgramModel } from '@/domain/usecases/program/add-program'
 import { Program } from '../entities/program'
+import { Week } from '../entities/week'
 
 export class ProgramRepository implements AddProgramRepository, LoadProgramByIdRepository, LoadProgramsRepository, DeleteProgramRepository {
   async add (programData: AddProgramModel, programId?: string): Promise<ProgramModel> {
@@ -37,5 +38,17 @@ export class ProgramRepository implements AddProgramRepository, LoadProgramByIdR
       return null
     }
     return await Program.remove(program)
+  }
+
+  async associateToWeek (programId: string, weekId: string): Promise<Program> {
+    const program = await Program.findOne({ relations: { weeks: true }, where: { id: programId } })
+    if (program) {
+      const week = await Week.findOneBy({ id: weekId })
+      if (week) {
+        program.weeks.push(week)
+        return await Program.save(program)
+      }
+    }
+    return null
   }
 }
