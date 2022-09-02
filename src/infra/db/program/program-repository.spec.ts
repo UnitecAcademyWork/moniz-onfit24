@@ -1,4 +1,8 @@
+import { AddWeekRepository } from '@/data/protocols/db/week/add-week-repository'
+import { WeekModel } from '@/domain/models/week'
 import { AddProgramModel } from '@/domain/usecases/program/add-program'
+import { AddWeekModel } from '@/domain/usecases/week/add-week'
+import { Week } from '../entities/week'
 import { TypeormHelper } from '../typeorm-helper'
 import { ProgramRepository } from './program-repository'
 
@@ -22,6 +26,35 @@ describe('Program Repository', () => {
     equipment: ['any_equipment', 'other_equipment'],
     objective: ['any_objective', 'other_objective']
   })
+
+  const makeFakeWeekData = async (): Promise<AddWeekModel> => ({
+    goals: ['any_goal', 'other_goal'],
+    exercises: [{
+      duration: 'any_duration',
+      title: 'any_title',
+      uri: 'any_uri',
+      url: 'any_url'
+    },
+    {
+      duration: 'any_duration',
+      title: 'any_title',
+      uri: 'any_uri',
+      url: 'any_url'
+    }]
+  })
+
+  const makeAddWeek = (): AddWeekRepository => {
+    class AddWeekRepositoryStub implements AddWeekRepository {
+      async add (weekData: AddWeekModel): Promise<WeekModel> {
+        const week = new Week()
+        week.goals = weekData.goals
+        week.exercises = weekData.exercises
+        await Week.save(week)
+        return week
+      }
+    }
+    return new AddWeekRepositoryStub()
+  }
 
   const makeSut = (): ProgramRepository => {
     return new ProgramRepository()
@@ -94,6 +127,32 @@ describe('Program Repository', () => {
       const sut = makeSut()
       const objectives = await sut.delete('any_id')
       expect(objectives).toBeNull()
+    })
+  })
+
+  describe('associateToWeek()', () => {
+    test('should associate week to program on success', async () => {
+      const sut = makeSut()
+      const program = await sut.add(makeProgram(), 'any_id')
+      const week = await makeAddWeek().add(await makeFakeWeekData())
+      const week2 = await makeAddWeek().add(await makeFakeWeekData())
+      await sut.associateToWeek(program.id, week.id)
+      const result = await sut.associateToWeek(program.id, week2.id)
+      expect(result.weeks.length).toBe(2)
+    })
+
+    test('should return if null program Id is invalid', async () => {
+      const sut = makeSut()
+      const week = await makeAddWeek().add(await makeFakeWeekData())
+      const result = await sut.associateToWeek('wrong_id', week.id)
+      expect(result).toBeNull()
+    })
+
+    test('should associate week to program', async () => {
+      const sut = makeSut()
+      const program = await sut.add(makeProgram(), 'any_id')
+      const result = await sut.associateToWeek(program.id, 'wrong_id')
+      expect(result).toBeNull()
     })
   })
 })
