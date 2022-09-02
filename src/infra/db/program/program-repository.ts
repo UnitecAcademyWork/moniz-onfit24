@@ -2,12 +2,13 @@ import { AddProgramRepository } from '@/data/protocols/db/program/add-program-re
 import { DeleteProgramRepository } from '@/data/protocols/db/program/delete-program-repository'
 import { LoadProgramByIdRepository } from '@/data/protocols/db/program/load-program-by-id-repository'
 import { LoadProgramsRepository } from '@/data/protocols/db/program/load-programs-repository'
+import { AddWeekToProgramRepository } from '@/data/protocols/db/program/program-week-repository'
 import { ProgramModel } from '@/domain/models/program'
 import { AddProgramModel } from '@/domain/usecases/program/add-program'
 import { Program } from '../entities/program'
 import { Week } from '../entities/week'
 
-export class ProgramRepository implements AddProgramRepository, LoadProgramByIdRepository, LoadProgramsRepository, DeleteProgramRepository {
+export class ProgramRepository implements AddProgramRepository, LoadProgramByIdRepository, LoadProgramsRepository, DeleteProgramRepository, AddWeekToProgramRepository {
   async add (programData: AddProgramModel, programId?: string): Promise<ProgramModel> {
     const program = new Program()
     program.id = programId
@@ -40,7 +41,7 @@ export class ProgramRepository implements AddProgramRepository, LoadProgramByIdR
     return await Program.remove(program)
   }
 
-  async associateToWeek (programId: string, weekId: string): Promise<Program> {
+  async associate (programId: string, weekId: string): Promise<Program> {
     const program = await Program.findOne({ relations: { weeks: true }, where: { id: programId } })
     if (program) {
       const week = await Week.findOneBy({ id: weekId })

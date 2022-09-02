@@ -1,3 +1,5 @@
+import { WeekModel } from './week'
+
 export interface ProgramModel {
   id: string
   name: string
@@ -7,4 +9,5 @@ export interface ProgramModel {
   duration?: string
   objective?: string[]
   equipment?: string[]
+  weeks?: WeekModel[]
 }
