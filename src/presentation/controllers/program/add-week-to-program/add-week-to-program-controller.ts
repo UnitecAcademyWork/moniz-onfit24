@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden, serverError } from '@/presentation/helpers/http/http-helper'
+import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddWeekToProgram, Controller, HttpRequest, HttpResponse } from './add-week-to-program-controller.protocols'
 
 export class AddWeekToProgramController implements Controller {
@@ -12,6 +12,7 @@ export class AddWeekToProgramController implements Controller {
       if (!program) {
         return forbidden(new InvalidParamError('invalidId'))
       }
+      return ok(program)
     } catch (error) {
       return serverError(error)
     }
