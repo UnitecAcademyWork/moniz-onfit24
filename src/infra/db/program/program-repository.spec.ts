@@ -136,22 +136,22 @@ describe('Program Repository', () => {
       const program = await sut.add(makeProgram(), 'any_id')
       const week = await makeAddWeek().add(await makeFakeWeekData())
       const week2 = await makeAddWeek().add(await makeFakeWeekData())
-      await sut.associateToWeek(program.id, week.id)
-      const result = await sut.associateToWeek(program.id, week2.id)
+      await sut.associate(program.id, week.id)
+      const result = await sut.associate(program.id, week2.id)
       expect(result.weeks.length).toBe(2)
     })
 
     test('should return if null program Id is invalid', async () => {
       const sut = makeSut()
       const week = await makeAddWeek().add(await makeFakeWeekData())
-      const result = await sut.associateToWeek('wrong_id', week.id)
+      const result = await sut.associate('wrong_id', week.id)
       expect(result).toBeNull()
     })
 
     test('should associate week to program', async () => {
       const sut = makeSut()
       const program = await sut.add(makeProgram(), 'any_id')
-      const result = await sut.associateToWeek(program.id, 'wrong_id')
+      const result = await sut.associate(program.id, 'wrong_id')
       expect(result).toBeNull()
     })
   })
