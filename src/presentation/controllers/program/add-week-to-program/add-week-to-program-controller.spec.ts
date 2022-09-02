@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden, serverError } from '@/presentation/helpers/http/http-helper'
+import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddWeekToProgramController } from './add-week-to-program-controller'
 import { AddWeekToProgram, HttpRequest, ProgramModel } from './add-week-to-program-controller.protocols'
 
@@ -73,5 +73,11 @@ describe('AddWeekToProgram Controller', () => {
     jest.spyOn(addWeekToProgramStub, 'associate').mockRejectedValueOnce(new Error())
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ok(makeFakeProgram()))
   })
 })
