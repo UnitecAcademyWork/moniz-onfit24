@@ -7,6 +7,8 @@ import { sign } from 'jsonwebtoken'
 import env from '../config/env'
 import { ProgramModel } from '@/domain/models/program'
 import { Program } from '@/infra/db/entities/program'
+import { WeekModel } from '@/domain/models/week'
+import { Week } from '@/infra/db/entities/week'
 
 const makeAccessToken = async (): Promise<string> => {
   const password = await hash('123456', 12)
@@ -33,6 +35,19 @@ const makeProgram = async (): Promise<ProgramModel> => {
   program.objective = ['any_objective', 'other_objective']
   program.equipment = ['any_equipment', 'other_equipment']
   return await program.save()
+}
+
+const makeWeek = async (): Promise<WeekModel> => {
+  const week = new Week()
+  week.goals = ['any_goal']
+  week.exercises = [{
+    duration: 'any_duration',
+    title: 'any_title',
+    uri: 'any_uri',
+    url: 'any_url'
+  }]
+  await Week.save(week)
+  return week
 }
 
 describe('Program Routes', () => {
@@ -160,6 +175,46 @@ describe('Program Routes', () => {
       await request(app)
         .delete('/api/program/wrong_id')
         .set('x-access-token', accessToken)
+        .expect(403)
+    })
+  })
+
+  describe('POST /program-week', () => {
+    test('should return 200 on associate week to program', async () => {
+      const program = await makeProgram()
+      const week = await makeWeek()
+      const accessToken = await makeAccessToken()
+      await request(app)
+        .post('/api/program-week')
+        .set('x-access-token', accessToken)
+        .send({
+          programId: program.id,
+          weekId: week.id
+        })
+        .expect(200)
+    })
+
+    test('should return 403 if no access token is provided', async () => {
+      const program = await makeProgram()
+      const week = await makeWeek()
+      await request(app)
+        .post('/api/program-week')
+        .send({
+          programId: program.id,
+          weekId: week.id
+        })
+        .expect(403)
+    })
+
+    test('should return 403 if if invalid Id is provided', async () => {
+      await makeProgram()
+      const week = await makeWeek()
+      await request(app)
+        .post('/api/program-week')
+        .send({
+          programId: 'wrong_id',
+          weekId: week.id
+        })
         .expect(403)
     })
   })
