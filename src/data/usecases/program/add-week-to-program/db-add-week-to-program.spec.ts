@@ -51,4 +51,10 @@ describe('DbAddWeekToProgram', () => {
     await sut.associate('program_id', 'week_id')
     expect(associateSpy).toHaveBeenCalledWith('program_id', 'week_id')
   })
+
+  test('should return a program on associate success', async () => {
+    const { sut } = makeSut()
+    const program = await sut.associate('program_id', 'week_id')
+    expect(program).toEqual(makeFakeProgram())
+  })
 })
