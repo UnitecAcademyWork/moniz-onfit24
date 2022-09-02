@@ -1,3 +1,5 @@
+import { InvalidParamError } from '@/presentation/errors'
+import { forbidden } from '@/presentation/helpers/http/http-helper'
 import { AddWeekToProgramController } from './add-week-to-program-controller'
 import { AddWeekToProgram, HttpRequest, ProgramModel } from './add-week-to-program-controller.protocols'
 
@@ -57,5 +59,12 @@ describe('AddWeekToProgram Controller', () => {
     const associateSpy = jest.spyOn(addWeekToProgramStub, 'associate')
     await sut.handle(makeFakeRequest())
     expect(associateSpy).toHaveBeenCalledWith('program_id', 'week_id')
+  })
+
+  test('should call AddWeekToProgram with correct values', async () => {
+    const { sut, addWeekToProgramStub } = makeSut()
+    jest.spyOn(addWeekToProgramStub, 'associate').mockReturnValueOnce(null)
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('invalidId')))
   })
 })
