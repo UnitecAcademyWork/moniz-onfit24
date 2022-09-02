@@ -57,4 +57,11 @@ describe('DbAddWeekToProgram', () => {
     const program = await sut.associate('program_id', 'week_id')
     expect(program).toEqual(makeFakeProgram())
   })
+
+  test('should return a null if AddWeekToProgramRepository returns null', async () => {
+    const { sut, addWeekToProgramRepositoryStub } = makeSut()
+    jest.spyOn(addWeekToProgramRepositoryStub, 'associate').mockReturnValueOnce(null)
+    const program = await sut.associate('program_id', 'week_id')
+    expect(program).toBeNull()
+  })
 })
