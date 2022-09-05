@@ -1,9 +1,10 @@
 import { AddRecipeRepository } from '@/data/protocols/db/recipe/add-recipe-repository'
+import { LoadRecipesRepository } from '@/data/protocols/db/recipe/load-all-recipes-repository'
 import { RecipeModel } from '@/domain/models/recipe'
 import { AddRecipeModel } from '@/domain/usecases/recipe/add-recipe'
 import { Recipe } from '../entities/recipe'
 
-export class RecipeRepository implements AddRecipeRepository {
+export class RecipeRepository implements AddRecipeRepository, LoadRecipesRepository {
   async add (recipeData: AddRecipeModel): Promise<RecipeModel> {
     const recipe = new Recipe()
     recipe.cookTime = recipeData.cookTime
@@ -19,5 +20,10 @@ export class RecipeRepository implements AddRecipeRepository {
     recipe.url = recipeData.url
     const result = await Recipe.save(recipe)
     return result
+  }
+
+  async loadAll (): Promise<RecipeModel[]> {
+    const recipe = await Recipe.find()
+    return recipe
   }
 }

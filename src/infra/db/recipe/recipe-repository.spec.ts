@@ -82,4 +82,22 @@ describe('Recipe Repository', () => {
       expect(recipe.steps).toEqual(['any_step', 'other_step'])
     })
   })
+
+  describe('loadAll()', () => {
+    test('should load all recipes on success', async () => {
+      const sut = makeSut()
+      await sut.add(makeFakeRecipeData())
+      await sut.add(makeFakeRecipeData())
+      const recipes = await sut.loadAll()
+      expect(recipes.length).toBe(2)
+      expect(recipes[0].name).toBe('any_name')
+      expect(recipes[1].name).toBe('any_name')
+    })
+
+    test('should load empty list', async () => {
+      const sut = makeSut()
+      const recipes = await sut.loadAll()
+      expect(recipes.length).toBe(0)
+    })
+  })
 })
