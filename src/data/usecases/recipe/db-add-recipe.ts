@@ -4,7 +4,7 @@ export class DbAddRecipe implements AddRecipe {
   constructor (private readonly addRecipeRepository: AddRecipeRepository) {}
 
   async add (recipeData: AddRecipeModel): Promise<RecipeModel> {
-    await this.addRecipeRepository.add(recipeData)
-    return null
+    const recipe = await this.addRecipeRepository.add(recipeData)
+    return recipe
   }
 }
