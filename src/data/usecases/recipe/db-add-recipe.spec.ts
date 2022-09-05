@@ -117,4 +117,10 @@ describe('DbAddRecipe', () => {
       steps: ['any_step', 'other_step']
     })
   })
+
+  test('should return a recipe on success', async () => {
+    const { sut } = makeSut()
+    const recipe = await sut.add(makeFakeRecipeData())
+    expect(recipe).toEqual(makeFakeRecipe())
+  })
 })
