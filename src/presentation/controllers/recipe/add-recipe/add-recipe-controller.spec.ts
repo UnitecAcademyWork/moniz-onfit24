@@ -1,5 +1,5 @@
 import { MissingParamError, ServerError } from '@/presentation/errors'
-import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddRecipeController } from './add-recipe-controller'
 import { AddRecipe, AddRecipeModel, HttpRequest, RecipeModel, Validation } from './add-recipe-controller.protocols'
 
@@ -153,5 +153,11 @@ describe('AddRecipe Controller', () => {
     jest.spyOn(addRecipeStub, 'add').mockImplementationOnce(async () => { return await Promise.reject(new Error()) })
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new ServerError('')))
+  })
+
+  test('should return 200 if valid data is provided', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ok(makeFakeRecipe()))
   })
 })
