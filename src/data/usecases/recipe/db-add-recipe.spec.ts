@@ -123,4 +123,11 @@ describe('DbAddRecipe', () => {
     const recipe = await sut.add(makeFakeRecipeData())
     expect(recipe).toEqual(makeFakeRecipe())
   })
+
+  test('should throw AddRecipeRepository throws', async () => {
+    const { sut, addRecipeRepositoryStub } = makeSut()
+    jest.spyOn(addRecipeRepositoryStub, 'add').mockRejectedValueOnce(new Error())
+    const promise = sut.add(makeFakeRecipeData())
+    await expect(promise).rejects.toThrow()
+  })
 })
