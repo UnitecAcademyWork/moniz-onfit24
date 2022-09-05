@@ -1,4 +1,4 @@
-import { DbAddRecipe } from '@/data/usecases/recipe/db-add-recipe'
+import { DbAddRecipe } from '@/data/usecases/recipe/add-recipe/db-add-recipe'
 import { AddRecipe } from '@/domain/usecases/recipe/add-recipe'
 import { RecipeRepository } from '@/infra/db/recipe/recipe-repository'
 
