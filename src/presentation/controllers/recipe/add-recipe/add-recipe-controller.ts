@@ -1,4 +1,4 @@
-import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddRecipe, Controller, HttpRequest, HttpResponse, Validation } from './add-recipe-controller.protocols'
 
 export class AddRecipeController implements Controller {
@@ -11,8 +11,8 @@ export class AddRecipeController implements Controller {
         return badRequest(error)
       }
       const { name, description, prepTime, cookTime, difficulty, serves, url, nutrition, tags, ingredients, steps } = httpRequest.body
-      await this.addRecipe.add({ name, description, prepTime, cookTime, difficulty, serves, url, nutrition, tags, ingredients, steps })
-      return null
+      const recipe = await this.addRecipe.add({ name, description, prepTime, cookTime, difficulty, serves, url, nutrition, tags, ingredients, steps })
+      return ok(recipe)
     } catch (error) {
       return serverError(error)
     }
