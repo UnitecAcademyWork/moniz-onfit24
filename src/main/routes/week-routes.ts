@@ -4,7 +4,7 @@ import { routeAdapter } from '@/main/adapters/express-route-adapter'
 import { adminAuth } from '../middlewares/admin-auth'
 import { makeUpdateWeekController } from '../factories/controllers/week/update-week/update-week-controller-factory'
 import { makeLoadWeekController } from '../factories/controllers/week/load-week/load-week-controller-factory'
-import { makeLoadWeeksRepository } from '../factories/controllers/week/load-weeks/load-weeks-controller-factory'
+import { makeLoadWeeksRepository } from '../factories/controllers/week/load-weeks/load-all-weeks-controller-factory'
 import { auth } from '../middlewares/auth'
 
 export default (router: Router): void => {

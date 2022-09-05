@@ -1,7 +1,7 @@
 import { AddProgramRepository } from '@/data/protocols/db/program/add-program-repository'
 import { DeleteProgramRepository } from '@/data/protocols/db/program/delete-program-repository'
 import { LoadProgramByIdRepository } from '@/data/protocols/db/program/load-program-by-id-repository'
-import { LoadProgramsRepository } from '@/data/protocols/db/program/load-programs-repository'
+import { LoadProgramsRepository } from '@/data/protocols/db/program/load-all-programs-repository'
 import { AddWeekToProgramRepository } from '@/data/protocols/db/program/program-week-repository'
 import { ProgramModel } from '@/domain/models/program'
 import { AddProgramModel } from '@/domain/usecases/program/add-program'

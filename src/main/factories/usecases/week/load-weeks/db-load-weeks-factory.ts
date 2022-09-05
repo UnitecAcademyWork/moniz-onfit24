@@ -1,5 +1,5 @@
-import { DbLoadWeeks } from '@/data/usecases/week/load-weeks/db-load-weeks'
-import { LoadWeeks } from '@/domain/usecases/week/load-weeks'
+import { DbLoadWeeks } from '@/data/usecases/week/load-all-weeks/db-all-load-weeks'
+import { LoadWeeks } from '@/domain/usecases/week/load-all-weeks'
 import { WeekRepository } from '@/infra/db/week/week-repository'
 
 export const makeDbLoadWeeks = (): LoadWeeks => {
