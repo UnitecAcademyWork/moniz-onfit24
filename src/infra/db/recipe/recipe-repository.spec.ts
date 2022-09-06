@@ -100,4 +100,39 @@ describe('Recipe Repository', () => {
       expect(recipes.length).toBe(0)
     })
   })
+
+  describe('loadById()', () => {
+    test('should return a recipe on loadById success', async () => {
+      const sut = makeSut()
+      const recipe = await sut.add(makeFakeRecipeData())
+      const loadedRecipe = await sut.loadById(recipe.id)
+      expect(loadedRecipe).toBeTruthy()
+      expect(loadedRecipe.id).toBeTruthy()
+      expect(loadedRecipe.name).toBe('any_name')
+      expect(loadedRecipe.description).toBe('any_description')
+      expect(loadedRecipe.prepTime).toBe('any_preTime')
+      expect(loadedRecipe.cookTime).toBe('any_cookTime')
+      expect(loadedRecipe.difficulty).toBe('any_difficulty')
+      expect(loadedRecipe.serves).toBe('any_serving')
+      expect(loadedRecipe.url).toBe('any_url')
+      expect(loadedRecipe.nutrition).toEqual({
+        kcal: 'any_kcal',
+        fat: 'any_fat',
+        saturates: 'any_saturates',
+        carbs: 'any_carbs',
+        sugar: 'any_sugar',
+        fibre: 'any_fibre',
+        protein: 'any_protein',
+        salt: 'any_salt'
+      })
+      expect(loadedRecipe.tags).toEqual(['any_tag', 'other_tag'])
+      expect(loadedRecipe.steps).toEqual(['any_step', 'other_step'])
+    })
+
+    test('should return null if no recipe is found', async () => {
+      const sut = makeSut()
+      const loadedRecipe = await sut.loadById('invalid_id')
+      expect(loadedRecipe).toBeNull()
+    })
+  })
 })

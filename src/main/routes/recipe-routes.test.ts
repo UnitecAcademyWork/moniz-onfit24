@@ -116,4 +116,22 @@ describe('Recipe Routes', () => {
         .expect(204)
     })
   })
+
+  describe('get /recipe/recipeId', () => {
+    test('should return 403 if no access token is provided', async () => {
+      const recipe = await makeRecipe()
+      await request(app)
+        .get(`/api/recipe/${recipe.id}`)
+        .expect(403)
+    })
+
+    test('should return 200 if a recipe is found', async () => {
+      const accessToken = await makeAccessToken()
+      const recipe = await makeRecipe()
+      await request(app)
+        .get(`/api/recipe/${recipe.id}`)
+        .set('x-access-token', accessToken)
+        .expect(200)
+    })
+  })
 })
