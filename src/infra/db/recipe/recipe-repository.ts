@@ -7,8 +7,9 @@ import { AddRecipeModel } from '@/domain/usecases/recipe/add-recipe'
 import { Recipe } from '../entities/recipe'
 
 export class RecipeRepository implements AddRecipeRepository, LoadRecipesRepository, LoadRecipeByIdRepository, DeleteRecipeRepository {
-  async add (recipeData: AddRecipeModel): Promise<RecipeModel> {
+  async add (recipeData: AddRecipeModel, id?: string): Promise<RecipeModel> {
     const recipe = new Recipe()
+    recipe.id = id
     recipe.cookTime = recipeData.cookTime
     recipe.description = recipeData.description
     recipe.difficulty = recipeData.difficulty

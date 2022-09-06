@@ -160,4 +160,19 @@ describe('Recipe Routes', () => {
         .expect(403)
     })
   })
+
+  describe('PUT /recipe', () => {
+    test('should return 200 on update recipe', async () => {
+      const accessToken = await makeAccessToken()
+      const recipe = await makeRecipe()
+      await request(app)
+        .put(`/api/recipe/${recipe.id}`)
+        .set('x-access-token', accessToken)
+        .send({
+          cookTime: 'other_time',
+          description: 'other_description'
+        })
+        .expect(200)
+    })
+  })
 })

@@ -3,8 +3,8 @@ import { AddRecipe, AddRecipeModel, AddRecipeRepository, RecipeModel } from './d
 export class DbAddRecipe implements AddRecipe {
   constructor (private readonly addRecipeRepository: AddRecipeRepository) {}
 
-  async add (recipeData: AddRecipeModel): Promise<RecipeModel> {
-    const recipe = await this.addRecipeRepository.add(recipeData)
+  async add (recipeData: AddRecipeModel, id?: string): Promise<RecipeModel> {
+    const recipe = await this.addRecipeRepository.add(recipeData, id)
     return recipe
   }
 }

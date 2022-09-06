@@ -86,7 +86,7 @@ describe('DbAddRecipe', () => {
   test('should call addRecipeRepository with correct values', async () => {
     const { sut, addRecipeRepositoryStub } = makeSut()
     const addSpy = jest.spyOn(addRecipeRepositoryStub, 'add')
-    await sut.add(makeFakeRecipeData())
+    await sut.add(makeFakeRecipeData(), 'any_id')
     expect(addSpy).toHaveBeenCalledWith({
       name: 'any_name',
       description: 'any_description',
@@ -115,12 +115,12 @@ describe('DbAddRecipe', () => {
         quantity: 'other_quantity'
       }],
       steps: ['any_step', 'other_step']
-    })
+    }, 'any_id')
   })
 
   test('should return a recipe on success', async () => {
     const { sut } = makeSut()
-    const recipe = await sut.add(makeFakeRecipeData())
+    const recipe = await sut.add(makeFakeRecipeData(), 'any_id')
     expect(recipe).toEqual(makeFakeRecipe())
   })
 
