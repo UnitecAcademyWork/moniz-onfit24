@@ -98,14 +98,6 @@ describe('Program Routes', () => {
     test('should return 403 if no access token is provided', async () => {
       await request(app)
         .post('/api/program')
-        .send({
-          name: 'any_name',
-          description: 'any_description',
-          difficulty: 'any_difficulty',
-          duration: 'any_duration',
-          objective: ['any_objective', 'other_objective'],
-          equipment: ['any_equipment', 'other_equipment']
-        })
         .expect(403)
     })
 
@@ -115,14 +107,6 @@ describe('Program Routes', () => {
       await request(app)
         .get(`/api/program/${program.id}`)
         .set('x-access-token', accessToken)
-        .send({
-          name: 'any_name',
-          description: 'any_description',
-          difficulty: 'any_difficulty',
-          duration: 'any_duration',
-          objective: ['any_objective', 'other_objective'],
-          equipment: ['any_equipment', 'other_equipment']
-        })
         .expect(200)
     })
   })
