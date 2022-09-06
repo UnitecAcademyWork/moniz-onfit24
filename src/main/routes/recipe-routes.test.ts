@@ -134,4 +134,30 @@ describe('Recipe Routes', () => {
         .expect(200)
     })
   })
+
+  describe('delete /recipe/:recipeId', () => {
+    test('should return 403 on delete recipe without accessToken', async () => {
+      const recipe = await makeRecipe()
+      await request(app)
+        .delete(`/api/recipe/${recipe.id}`)
+        .expect(403)
+    })
+
+    test('should return 204 on delete recipe with valid accessToken', async () => {
+      const accessToken = await makeAccessToken()
+      const recipe = await makeRecipe()
+      await request(app)
+        .delete(`/api/recipe/${recipe.id}`)
+        .set('x-access-token', accessToken)
+        .expect(204)
+    })
+
+    test('should return 403 on if no recipe is found', async () => {
+      const accessToken = await makeAccessToken()
+      await request(app)
+        .delete('/api/recipe/wrong_id')
+        .set('x-access-token', accessToken)
+        .expect(403)
+    })
+  })
 })

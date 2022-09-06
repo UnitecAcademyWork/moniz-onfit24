@@ -135,4 +135,19 @@ describe('Recipe Repository', () => {
       expect(loadedRecipe).toBeNull()
     })
   })
+
+  describe('delete()', () => {
+    test('should delete recipe on success', async () => {
+      const sut = makeSut()
+      const recipe = await sut.add(makeFakeRecipeData())
+      const deletedRecipe = await sut.delete(recipe.id)
+      expect(deletedRecipe).toBeTruthy()
+    })
+
+    test('should return null if no recipe is found', async () => {
+      const sut = makeSut()
+      const recipe = await sut.delete('wrong_id')
+      expect(recipe).toBeNull()
+    })
+  })
 })
