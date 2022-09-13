@@ -148,10 +148,28 @@ describe('Program Repository', () => {
       expect(result).toBeNull()
     })
 
-    test('should associate week to program', async () => {
+    test('should return if null week Id is invalid', async () => {
       const sut = makeSut()
       const program = await sut.add(makeProgram(), 'any_id')
       const result = await sut.associate(program.id, 'wrong_id')
+      expect(result).toBeNull()
+    })
+  })
+
+  describe('deleteAssociation()', () => {
+    test('should remove week from program on success', async () => {
+      const sut = makeSut()
+      const program = await sut.add(makeProgram(), 'any_id')
+      const week = await makeAddWeek().add(await makeFakeWeekData())
+      await sut.associate(program.id, week.id)
+      const result = await sut.deleteAssociation(program.id, week.id)
+      expect(result.weeks.length).toBe(0)
+    })
+
+    test('should return null if week id or program id id invalid', async () => {
+      const sut = makeSut()
+      const program = await sut.add(makeProgram(), 'any_id')
+      const result = await sut.deleteAssociation(program.id, 'week.id')
       expect(result).toBeNull()
     })
   })
