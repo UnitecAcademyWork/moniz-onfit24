@@ -7,8 +7,9 @@ import { ProgramModel } from '@/domain/models/program'
 import { AddProgramModel } from '@/domain/usecases/program/add-program'
 import { Program } from '../entities/program'
 import { Week } from '../entities/week'
+import { DeleteProgramWeekRepository } from '@/data/protocols/db/program/delete-association-repository'
 
-export class ProgramRepository implements AddProgramRepository, LoadProgramByIdRepository, LoadProgramsRepository, DeleteProgramRepository, AddWeekToProgramRepository {
+export class ProgramRepository implements AddProgramRepository, LoadProgramByIdRepository, LoadProgramsRepository, DeleteProgramRepository, AddWeekToProgramRepository, DeleteProgramWeekRepository {
   async add (programData: AddProgramModel, programId?: string): Promise<ProgramModel> {
     const program = new Program()
     program.id = programId
@@ -48,6 +49,21 @@ export class ProgramRepository implements AddProgramRepository, LoadProgramByIdR
       if (week) {
         program.weeks.push(week)
         return await Program.save(program)
+      }
+    }
+    return null
+  }
+
+  async deleteAssociation (programId: string, weekId: string): Promise<Program> {
+    const program = await Program.findOne({ relations: { weeks: true }, where: { id: programId } })
+    if (program) {
+      const week = await Week.findOneBy({ id: weekId })
+      if (week) {
+        program.weeks = program.weeks.filter((week) => {
+          return week.id !== weekId
+        })
+        await Program.save(program)
+        return program
       }
     }
     return null

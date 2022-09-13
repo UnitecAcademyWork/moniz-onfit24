@@ -12,11 +12,11 @@ export const ormConfig = new DataSource({
 
 export const ormConfig2 = new DataSource({
   type: 'mysql',
-  host: 'localhost',
+  host: env.db_host,
   port: 3306,
-  username: 'root',
-  password: '',
-  database: 'onfit24',
+  username: env.db_username,
+  password: env.db_password,
+  database: env.database,
   entities: [path.join(__dirname, 'entities/*{.ts,.js}')],
   synchronize: true,
   logging: false
