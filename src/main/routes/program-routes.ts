@@ -16,5 +16,5 @@ export default (router: Router): void => {
   router.get('/program/:programId', auth, routeAdapter(makeLoadProgramController()))
   router.delete('/program/:programId', adminAuth, routeAdapter(makeDeleteProgramController()))
   router.post('/program-week', adminAuth, routeAdapter(makeAddWeekToProgramController()))
-  router.get('/program-week', auth, routeAdapter(makeLoadProgramWeeksController()))
+  router.get('/program-week/:programId', auth, routeAdapter(makeLoadProgramWeeksController()))
 }
