@@ -1,6 +1,6 @@
 import { AddProgramRepository } from '@/data/protocols/db/program/add-program-repository'
 import { DeleteProgramRepository } from '@/data/protocols/db/program/delete-program-repository'
-import { LoadProgramByIdRepository } from '@/data/protocols/db/program/load-program-by-id-repository'
+import { LoadProgramByIdRepository, LoadProgramWeeksRepository } from '@/data/protocols/db/program/load-program-by-id-repository'
 import { LoadProgramsRepository } from '@/data/protocols/db/program/load-all-programs-repository'
 import { AddWeekToProgramRepository } from '@/data/protocols/db/program/program-week-repository'
 import { ProgramModel } from '@/domain/models/program'
@@ -9,7 +9,7 @@ import { Program } from '../entities/program'
 import { Week } from '../entities/week'
 import { DeleteProgramWeekRepository } from '@/data/protocols/db/program/delete-association-repository'
 
-export class ProgramRepository implements AddProgramRepository, LoadProgramByIdRepository, LoadProgramsRepository, DeleteProgramRepository, AddWeekToProgramRepository, DeleteProgramWeekRepository {
+export class ProgramRepository implements AddProgramRepository, LoadProgramByIdRepository, LoadProgramsRepository, DeleteProgramRepository, AddWeekToProgramRepository, DeleteProgramWeekRepository, LoadProgramWeeksRepository {
   async add (programData: AddProgramModel, programId?: string): Promise<ProgramModel> {
     const program = new Program()
     program.id = programId
@@ -26,6 +26,11 @@ export class ProgramRepository implements AddProgramRepository, LoadProgramByIdR
 
   async loadById (id: string): Promise<ProgramModel> {
     const program = await Program.findOneBy({ id })
+    return program
+  }
+
+  async loadProgramWeeks (id: string): Promise<ProgramModel> {
+    const program = await Program.findOne({ relations: { weeks: true }, where: { id } })
     return program
   }
 

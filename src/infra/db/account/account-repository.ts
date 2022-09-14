@@ -15,6 +15,7 @@ export class AccountRepository implements AddAccountRepository, LoadAccountByEma
     account.name = accountData.name
     account.email = accountData.email
     account.password = accountData.password
+    account.role = accountData.role
     const result = await account.save()
     return result
   }
