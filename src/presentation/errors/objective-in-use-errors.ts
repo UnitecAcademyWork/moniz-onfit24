@@ -1,6 +1,6 @@
 export class ObjectiveInUseError extends Error {
   constructor () {
-    super('Objective already in use')
+    super('Objectivo já existe')
     this.name = 'ObjectiveInUseError'
   }
 }
