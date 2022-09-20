@@ -10,5 +10,5 @@ export const makeDbAuthentication = (): Authentication => {
   const bcryptAdapter = new BcryptAdapter(salt)
   const jwtAdapter = new JwtAdapter(env.jwtsecret)
   const accountRepository = new AccountRepository()
-  return new DbAuthentication(accountRepository, bcryptAdapter, jwtAdapter, accountRepository)
+  return new DbAuthentication(accountRepository, accountRepository, bcryptAdapter, jwtAdapter, accountRepository)
 }
