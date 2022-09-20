@@ -6,7 +6,7 @@ import { LoadAccountByEmailRepository } from '@/data/protocols/db/account/load-a
 import { UpdateAccessTokenRepository } from '@/data/protocols/db/account/update-access-token-repository'
 import { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
 import { UpdateUserRoleRepository } from '@/data/protocols/db/account/update-user-role-repository'
-import { AddAccountDetailsRepository } from '@/data/protocols/db/account/add-account-info-repository'
+import { AddAccountDetailsRepository } from '@/data/protocols/db/account/add-account-details-repository'
 import { AccountDetails } from '../entities/account-details'
 
 export class AccountRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository, UpdateUserRoleRepository, AddAccountDetailsRepository {

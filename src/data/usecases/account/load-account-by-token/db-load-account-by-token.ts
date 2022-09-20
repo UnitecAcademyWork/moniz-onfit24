@@ -6,13 +6,13 @@ import { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-a
 export class DbLoadAccountByToken implements LoadAccountByToken {
   constructor (
     private readonly decrypter: Decrypter,
-    private readonly loadAccountByTokenRepositoryStub: LoadAccountByTokenRepository
+    private readonly loadAccountByTokenRepository: LoadAccountByTokenRepository
   ) {}
 
   async load (accessToken: string, role?: string): Promise<AccountModel> {
     const token = await this.decrypter.decrypt(accessToken)
     if (token) {
-      const account = await this.loadAccountByTokenRepositoryStub.loadByToken(accessToken, role)
+      const account = await this.loadAccountByTokenRepository.loadByToken(accessToken, role)
       if (account) {
         return account
       }
