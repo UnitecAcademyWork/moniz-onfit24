@@ -8,8 +8,9 @@ import { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-a
 import { UpdateUserRoleRepository } from '@/data/protocols/db/account/update-user-role-repository'
 import { AddAccountDetailsRepository } from '@/data/protocols/db/account/add-account-details-repository'
 import { AccountDetails } from '../entities/account-details'
+import { LoadAccountDetailsByIdRepository } from '@/data/protocols/db/account/load-account-details-by-id-repository'
 
-export class AccountRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository, UpdateUserRoleRepository, AddAccountDetailsRepository {
+export class AccountRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository, UpdateUserRoleRepository, AddAccountDetailsRepository, LoadAccountDetailsByIdRepository {
   async add (accountData: AddAccountModel): Promise<AccountModel> {
     const account = new Account()
     account.name = accountData.name
@@ -58,5 +59,10 @@ export class AccountRepository implements AddAccountRepository, LoadAccountByEma
       return accountDetails
     }
     return null
+  }
+
+  async loadAccountDetailsById (accountId: string): Promise<AccountDetailsModel> {
+    const accountDetails = await AccountDetails.findOneBy({ accountId })
+    return accountDetails
   }
 }

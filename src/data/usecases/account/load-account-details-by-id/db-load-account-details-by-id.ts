@@ -4,7 +4,7 @@ export class DbLoadAccountDetailsById implements LoadAccountDetailsById {
   constructor (private readonly loadAccountDetailsByIdRepository: LoadAccountDetailsByIdRepository) {}
 
   async load (accountId: string): Promise<AccountDetailsModel> {
-    const accountDetails = await this.loadAccountDetailsByIdRepository.loadById(accountId)
+    const accountDetails = await this.loadAccountDetailsByIdRepository.loadAccountDetailsById(accountId)
     return accountDetails
   }
 }

@@ -133,7 +133,7 @@ describe('Account Repository', () => {
     })
   })
 
-  describe('addAccountInfo()', () => {
+  describe('addAccountDetails()', () => {
     test('should return an account info on addAccountInfo success', async () => {
       const account = await makeAddAccount()
       const sut = makeSut()
@@ -166,6 +166,36 @@ describe('Account Repository', () => {
         weight: 'any_weight'
       })
       expect(accountInfo).toBeNull()
+    })
+  })
+
+  describe('loadAccountDetailsById()', () => {
+    test('should return accountDetails on loadAccountDetailsById success', async () => {
+      const account = await makeAddAccount()
+      const sut = makeSut()
+      await sut.addAccountDetails({
+        accountId: account.id,
+        birth: 'any_birth',
+        gender: 'any_gender',
+        height: 'any_height',
+        objective: 'any_objective',
+        weight: 'any_weight'
+      })
+      const accountDetails = await sut.loadAccountDetailsById(account.id)
+      expect(accountDetails).toBeTruthy()
+      expect(accountDetails.id).toBeTruthy()
+      expect(accountDetails.accountId).toBe(account.id)
+      expect(accountDetails.birth).toBe('any_birth')
+      expect(accountDetails.gender).toBe('any_gender')
+      expect(accountDetails.height).toBe('any_height')
+      expect(accountDetails.objective).toBe('any_objective')
+      expect(accountDetails.weight).toBe('any_weight')
+    })
+
+    test('should return null if loadAccountDetails fails', async () => {
+      const sut = makeSut()
+      const accountDetails = await sut.loadAccountDetailsById('wrong_id')
+      expect(accountDetails).toBeFalsy()
     })
   })
 })

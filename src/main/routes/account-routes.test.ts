@@ -5,8 +5,10 @@ import app from '../config/app'
 import env from '../config/env'
 import { TypeormHelper } from '@/infra/db/typeorm-helper'
 import { Account } from '@/infra/db/entities/account'
+import { AccountDetailsModel } from '@/domain/models/account'
+import { AccountDetails } from '@/infra/db/entities/account-details'
 
-const makeAccount = async (): Promise<any> => {
+const makeAccount = async (): Promise<{accessToken: string, accountId: string}> => {
   const password = await hash('123456', 12)
   const account = new Account()
   account.name = 'lambo'
@@ -22,7 +24,18 @@ const makeAccount = async (): Promise<any> => {
   return { accessToken, accountId }
 }
 
-describe('Objective Routes', () => {
+const makeAccountDetails = async (accountId): Promise<AccountDetailsModel> => {
+  const accountDetails = new AccountDetails()
+  accountDetails.accountId = accountId
+  accountDetails.birth = '20/10/2020'
+  accountDetails.gender = 'masculino'
+  accountDetails.height = '1.74'
+  accountDetails.objective = 'ficar forte'
+  accountDetails.weight = '60.8'
+  return await accountDetails.save()
+}
+
+describe('Account Routes', () => {
   beforeAll(async () => {
     await TypeormHelper.create()
   })
@@ -62,6 +75,24 @@ describe('Objective Routes', () => {
           objective: 'ficar forte',
           weight: '60.8'
         })
+        .expect(200)
+    })
+  })
+
+  describe('GET /account-details/accountId', () => {
+    test('should return 403 if no access token is provided', async () => {
+      const { accountId } = await makeAccount()
+      await request(app)
+        .get(`/api/account-details/${accountId}`)
+        .expect(403)
+    })
+
+    test('should return 200 if accountDetails is found', async () => {
+      const { accessToken, accountId } = await makeAccount()
+      await makeAccountDetails(accountId)
+      await request(app)
+        .get(`/api/account-details/${accountId}`)
+        .set('x-access-token', accessToken)
         .expect(200)
     })
   })

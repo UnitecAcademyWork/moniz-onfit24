@@ -13,7 +13,7 @@ const makeFakeAccountDetails = (): AccountDetailsModel => ({
 
 const makeLoadAccountDetailsByIdRepository = (): LoadAccountDetailsByIdRepository => {
   class LoadAccountDetailsByIdRepositoryStub implements LoadAccountDetailsByIdRepository {
-    async loadById (accountId: string): Promise<AccountDetailsModel> {
+    async loadAccountDetailsById (accountId: string): Promise<AccountDetailsModel> {
       return Promise.resolve(makeFakeAccountDetails())
     }
   }
@@ -35,7 +35,7 @@ const makeSut = (): SutTypes => {
 describe('AccountDetailsById', () => {
   test('should call LoadAccountDetailsByIdRepository with correct values', async () => {
     const { sut, loadAccountDetailsByIdRepositoryStub } = makeSut()
-    const loadByIdSpy = jest.spyOn(loadAccountDetailsByIdRepositoryStub, 'loadById')
+    const loadByIdSpy = jest.spyOn(loadAccountDetailsByIdRepositoryStub, 'loadAccountDetailsById')
     await sut.load('any_id')
     expect(loadByIdSpy).toHaveBeenCalledWith('any_id')
   })
@@ -48,7 +48,7 @@ describe('AccountDetailsById', () => {
 
   test('should throw if LoadAccountDetailsByIdRepository throws', async () => {
     const { sut, loadAccountDetailsByIdRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountDetailsByIdRepositoryStub, 'loadById').mockRejectedValueOnce(new Error())
+    jest.spyOn(loadAccountDetailsByIdRepositoryStub, 'loadAccountDetailsById').mockRejectedValueOnce(new Error())
     const promise = sut.load('any_id')
     await expect(promise).rejects.toThrow()
   })
