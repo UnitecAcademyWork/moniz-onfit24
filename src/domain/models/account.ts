@@ -7,7 +7,7 @@ export interface AccountModel {
   role?: string
 }
 
-export interface AccountInfoModel {
+export interface AccountDetailsModel {
   id: string
   accountId: string
   birth: string

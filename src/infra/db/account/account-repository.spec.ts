@@ -137,7 +137,7 @@ describe('Account Repository', () => {
     test('should return an account info on addAccountInfo success', async () => {
       const account = await makeAddAccount()
       const sut = makeSut()
-      const accountInfo = await sut.addAccountInfo({
+      const accountInfo = await sut.addAccountDetails({
         accountId: account.id,
         birth: 'any_birth',
         gender: 'any_gender',
@@ -157,7 +157,7 @@ describe('Account Repository', () => {
 
     test('should return null if addAccountInfo fails', async () => {
       const sut = makeSut()
-      const accountInfo = await sut.addAccountInfo({
+      const accountInfo = await sut.addAccountDetails({
         accountId: 'wrong_id',
         birth: 'any_birth',
         gender: 'any_gender',

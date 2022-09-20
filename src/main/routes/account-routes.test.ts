@@ -1,10 +1,10 @@
+import { sign } from 'jsonwebtoken'
+import { hash } from 'bcrypt'
 import request from 'supertest'
 import app from '../config/app'
+import env from '../config/env'
 import { TypeormHelper } from '@/infra/db/typeorm-helper'
 import { Account } from '@/infra/db/entities/account'
-import { hash } from 'bcrypt'
-import { sign } from 'jsonwebtoken'
-import env from '../config/env'
 
 const makeAccount = async (): Promise<any> => {
   const password = await hash('123456', 12)
@@ -33,11 +33,11 @@ describe('Objective Routes', () => {
     await TypeormHelper.clear()
   })
 
-  describe('POST /account-info', () => {
-    test('should return 403 on add account info without accessToken', async () => {
+  describe('POST /account-details', () => {
+    test('should return 403 on add account details without accessToken', async () => {
       const { accountId } = await makeAccount()
       await request(app)
-        .post('/api/account-info')
+        .post('/api/account-details')
         .send({
           accountId,
           birth: '20/10/2020',
@@ -49,10 +49,10 @@ describe('Objective Routes', () => {
         .expect(403)
     })
 
-    test('should return 200 on add account info success', async () => {
+    test('should return 200 on add account details success', async () => {
       const { accessToken, accountId } = await makeAccount()
       await request(app)
-        .post('/api/account-info')
+        .post('/api/account-details')
         .set('x-access-token', accessToken)
         .send({
           accountId,

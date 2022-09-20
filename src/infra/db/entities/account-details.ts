@@ -1,10 +1,10 @@
 import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, Unique } from 'typeorm'
-import { AccountInfoModel } from '@/domain/models/account'
+import { AccountDetailsModel } from '@/domain/models/account'
 import { Account } from './account'
 
-@Entity('account_info')
+@Entity('account_details')
 @Unique(['accountId'])
-export class AccountInfo extends BaseEntity implements AccountInfoModel {
+export class AccountDetails extends BaseEntity implements AccountDetailsModel {
   @PrimaryGeneratedColumn('uuid')
     id: string
 

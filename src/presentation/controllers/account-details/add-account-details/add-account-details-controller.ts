@@ -1,9 +1,9 @@
 import { badRequest, methodNotAllowed, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { AddAccountInfo, Controller, HttpRequest, HttpResponse, Validation } from './add-account-info-controller.protocols'
+import { AddAccountDetails, Controller, HttpRequest, HttpResponse, Validation } from './add-account-details-controller.protocols'
 
-export class AddAccountInfoController implements Controller {
+export class AddAccountDetailsController implements Controller {
   constructor (
-    private readonly addAccountInfo: AddAccountInfo,
+    private readonly addAccountInfo: AddAccountDetails,
     private readonly validation: Validation
   ) {}
 

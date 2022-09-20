@@ -1,7 +1,7 @@
 import { MissingParamError, ServerError } from '@/presentation/errors'
 import { badRequest, methodNotAllowed, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { AddAccountInfoController } from './add-account-info-controller'
-import { AccountInfoModel, AddAccountInfo, AddAccountInfoModel, HttpRequest, Validation } from './add-account-info-controller.protocols'
+import { AddAccountDetailsController } from './add-account-details-controller'
+import { AccountDetailsModel, AddAccountDetails, AddAccountDetailsModel, HttpRequest, Validation } from './add-account-details-controller.protocols'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -14,7 +14,7 @@ const makeFakeRequest = (): HttpRequest => ({
   }
 })
 
-const makeFakeAccountInfo = (): AccountInfoModel => ({
+const makeFakeAccountInfo = (): AccountDetailsModel => ({
   id: 'any_id',
   accountId: 'any_AccountId',
   birth: 'any_date',
@@ -33,9 +33,9 @@ const makeValidation = (): Validation => {
   return new ValidationStub()
 }
 
-const makeAddAccountInfo = (): AddAccountInfo => {
-  class AddAccountInfoStub implements AddAccountInfo {
-    async add (accountInfo: AddAccountInfoModel): Promise<AccountInfoModel> {
+const makeAddAccountInfo = (): AddAccountDetails => {
+  class AddAccountInfoStub implements AddAccountDetails {
+    async add (accountInfo: AddAccountDetailsModel): Promise<AccountDetailsModel> {
       return Promise.resolve(makeFakeAccountInfo())
     }
   }
@@ -43,15 +43,15 @@ const makeAddAccountInfo = (): AddAccountInfo => {
 }
 
 interface sutTypes {
-  sut: AddAccountInfoController
-  addAccountInfoStub: AddAccountInfo
+  sut: AddAccountDetailsController
+  addAccountInfoStub: AddAccountDetails
   validationStub: Validation
 }
 
 const makeSut = (): sutTypes => {
   const addAccountInfoStub = makeAddAccountInfo()
   const validationStub = makeValidation()
-  const sut = new AddAccountInfoController(addAccountInfoStub, validationStub)
+  const sut = new AddAccountDetailsController(addAccountInfoStub, validationStub)
 
   return { sut, addAccountInfoStub, validationStub }
 }

@@ -1,15 +1,15 @@
 import { Account } from '../entities/account'
-import { AccountInfoModel, AccountModel } from '@/domain/models/account'
-import { AddAccountInfoModel, AddAccountModel } from '@/domain/usecases/account/add-account'
+import { AccountDetailsModel, AccountModel } from '@/domain/models/account'
+import { AddAccountDetailsModel, AddAccountModel } from '@/domain/usecases/account/add-account'
 import { AddAccountRepository } from '@/data/protocols/db/account/add-account-repository'
 import { LoadAccountByEmailRepository } from '@/data/protocols/db/account/load-account-by-email-repository'
 import { UpdateAccessTokenRepository } from '@/data/protocols/db/account/update-access-token-repository'
 import { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
 import { UpdateUserRoleRepository } from '@/data/protocols/db/account/update-user-role-repository'
-import { AddAccountInfoRepository } from '@/data/protocols/db/account/add-account-info-repository'
-import { AccountInfo } from '../entities/account-info'
+import { AddAccountDetailsRepository } from '@/data/protocols/db/account/add-account-info-repository'
+import { AccountDetails } from '../entities/account-details'
 
-export class AccountRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository, UpdateUserRoleRepository, AddAccountInfoRepository {
+export class AccountRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository, UpdateUserRoleRepository, AddAccountDetailsRepository {
   async add (accountData: AddAccountModel): Promise<AccountModel> {
     const account = new Account()
     account.name = accountData.name
@@ -42,20 +42,20 @@ export class AccountRepository implements AddAccountRepository, LoadAccountByEma
     return account
   }
 
-  async addAccountInfo (accountInfoData: AddAccountInfoModel): Promise<AccountInfoModel> {
+  async addAccountDetails (accountInfoData: AddAccountDetailsModel): Promise<AccountDetailsModel> {
     const account = await Account.findOneBy({ id: accountInfoData.accountId })
     if (account) {
-      const accountInfo = new AccountInfo()
-      accountInfo.account = account
-      accountInfo.accountId = accountInfoData.accountId
-      accountInfo.birth = accountInfoData.birth
-      accountInfo.gender = accountInfoData.gender
-      accountInfo.height = accountInfoData.height
-      accountInfo.objective = accountInfoData.objective
-      accountInfo.weight = accountInfoData.weight
-      await AccountInfo.save(accountInfo)
-      delete accountInfo.account
-      return accountInfo
+      const accountDetails = new AccountDetails()
+      accountDetails.account = account
+      accountDetails.accountId = accountInfoData.accountId
+      accountDetails.birth = accountInfoData.birth
+      accountDetails.gender = accountInfoData.gender
+      accountDetails.height = accountInfoData.height
+      accountDetails.objective = accountInfoData.objective
+      accountDetails.weight = accountInfoData.weight
+      await AccountDetails.save(accountDetails)
+      delete accountDetails.account
+      return accountDetails
     }
     return null
   }

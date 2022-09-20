@@ -1,13 +1,13 @@
-import { AccountInfoModel, AccountModel } from '../../models/account'
+import { AccountDetailsModel, AccountModel } from '../../models/account'
 
 export type AddAccountModel = Omit<AccountModel, 'id'>
 
-export type AddAccountInfoModel = Omit<AccountInfoModel, 'id'>
+export type AddAccountDetailsModel = Omit<AccountDetailsModel, 'id'>
 
 export interface AddAccount {
   add: (account: AddAccountModel) => Promise<AccountModel | null>
 }
 
-export interface AddAccountInfo {
-  add: (accountInfo: AddAccountInfoModel) => Promise<AccountInfoModel>
+export interface AddAccountDetails {
+  add: (accountInfo: AddAccountDetailsModel) => Promise<AccountDetailsModel>
 }

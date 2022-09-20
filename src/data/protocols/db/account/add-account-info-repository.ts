@@ -1,6 +1,6 @@
-import { AccountInfoModel } from '@/domain/models/account'
-import { AddAccountInfoModel } from '@/domain/usecases/account/add-account'
+import { AccountDetailsModel } from '@/domain/models/account'
+import { AddAccountDetailsModel } from '@/domain/usecases/account/add-account'
 
-export interface AddAccountInfoRepository {
-  addAccountInfo: (accountInfoData: AddAccountInfoModel) => Promise<AccountInfoModel>
+export interface AddAccountDetailsRepository {
+  addAccountDetails: (accountDetailsData: AddAccountDetailsModel) => Promise<AccountDetailsModel>
 }

@@ -1,4 +1,4 @@
-import { makeAddAccountInfoValidation } from './account-info-validation-factory'
+import { makeAddAccountInfoValidation } from './account-details-validation-factory'
 import { ValidationComposite, RequiredFieldValidation } from '@/presentation/helpers/validators'
 import { Validation } from '@/presentation/protocols/validation'
 import { FloatValidator } from '@/presentation/protocols/float-validator'
