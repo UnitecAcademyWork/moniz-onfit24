@@ -9,7 +9,7 @@ export class LoadWeekController implements Controller {
     try {
       const week = await this.loadWeekById.loadById(httpRequest.params.weekId)
       if (!week) {
-        return forbidden(new InvalidParamError('weekId'))
+        return forbidden(new InvalidParamError('Treino inválido'))
       }
       return ok(week)
     } catch (error) {

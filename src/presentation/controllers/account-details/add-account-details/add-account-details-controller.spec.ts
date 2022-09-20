@@ -14,7 +14,7 @@ const makeFakeRequest = (): HttpRequest => ({
   }
 })
 
-const makeFakeAccountInfo = (): AccountDetailsModel => ({
+const makeFakeAccountDetails = (): AccountDetailsModel => ({
   id: 'any_id',
   accountId: 'any_AccountId',
   birth: 'any_date',
@@ -33,33 +33,33 @@ const makeValidation = (): Validation => {
   return new ValidationStub()
 }
 
-const makeAddAccountInfo = (): AddAccountDetails => {
-  class AddAccountInfoStub implements AddAccountDetails {
-    async add (accountInfo: AddAccountDetailsModel): Promise<AccountDetailsModel> {
-      return Promise.resolve(makeFakeAccountInfo())
+const makeAddAccountDetails = (): AddAccountDetails => {
+  class AddAccountDetailsStub implements AddAccountDetails {
+    async add (accountDetails: AddAccountDetailsModel): Promise<AccountDetailsModel> {
+      return Promise.resolve(makeFakeAccountDetails())
     }
   }
-  return new AddAccountInfoStub()
+  return new AddAccountDetailsStub()
 }
 
 interface sutTypes {
   sut: AddAccountDetailsController
-  addAccountInfoStub: AddAccountDetails
+  addAccountDetailsStub: AddAccountDetails
   validationStub: Validation
 }
 
 const makeSut = (): sutTypes => {
-  const addAccountInfoStub = makeAddAccountInfo()
+  const addAccountDetailsStub = makeAddAccountDetails()
   const validationStub = makeValidation()
-  const sut = new AddAccountDetailsController(addAccountInfoStub, validationStub)
+  const sut = new AddAccountDetailsController(addAccountDetailsStub, validationStub)
 
-  return { sut, addAccountInfoStub, validationStub }
+  return { sut, addAccountDetailsStub, validationStub }
 }
 
-describe('Add Account Info Controller', () => {
-  test('should call AddAccountInfo with correct values', async () => {
-    const { sut, addAccountInfoStub } = makeSut()
-    const addSpy = jest.spyOn(addAccountInfoStub, 'add')
+describe('Add Account Details Controller', () => {
+  test('should call AddAccountDetails with correct values', async () => {
+    const { sut, addAccountDetailsStub } = makeSut()
+    const addSpy = jest.spyOn(addAccountDetailsStub, 'add')
     await sut.handle(makeFakeRequest())
     expect(addSpy).toHaveBeenCalledWith({
       accountId: 'any_AccountId',
@@ -71,16 +71,16 @@ describe('Add Account Info Controller', () => {
     })
   })
 
-  test('should return 405 if AddAccountInfo returns null', async () => {
-    const { sut, addAccountInfoStub } = makeSut()
-    jest.spyOn(addAccountInfoStub, 'add').mockReturnValueOnce(Promise.resolve(null))
+  test('should return 405 if AddAccountDetails returns null', async () => {
+    const { sut, addAccountDetailsStub } = makeSut()
+    jest.spyOn(addAccountDetailsStub, 'add').mockReturnValueOnce(Promise.resolve(null))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(methodNotAllowed())
   })
 
-  test('should return 500 if AddAccountInfo throws', async () => {
-    const { sut, addAccountInfoStub } = makeSut()
-    jest.spyOn(addAccountInfoStub, 'add').mockRejectedValueOnce(new Error())
+  test('should return 500 if AddAccountDetails throws', async () => {
+    const { sut, addAccountDetailsStub } = makeSut()
+    jest.spyOn(addAccountDetailsStub, 'add').mockRejectedValueOnce(new Error())
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new ServerError('')))
   })
@@ -88,7 +88,7 @@ describe('Add Account Info Controller', () => {
   test('should return 200 if valida data is provided', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(ok(makeFakeAccountInfo()))
+    expect(httpResponse).toEqual(ok(makeFakeAccountDetails()))
   })
 
   test('should call Validation with correct values', async () => {

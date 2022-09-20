@@ -52,7 +52,7 @@ describe('LoadWeek Controller', () => {
     const { sut, loadWeekByIdStub } = makeSut()
     jest.spyOn(loadWeekByIdStub, 'loadById').mockReturnValueOnce(null)
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(forbidden(new InvalidParamError('weekId')))
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('Treino inválido')))
   })
 
   test('should return 500 if LoadWeekById throws', async () => {
