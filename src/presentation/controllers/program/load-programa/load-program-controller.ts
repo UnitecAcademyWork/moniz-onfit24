@@ -9,7 +9,7 @@ export class LoadProgramController implements Controller {
     try {
       const program = await this.loadProgramById.loadById(httpRequest.params.programId)
       if (!program) {
-        return forbidden(new InvalidParamError('programId'))
+        return forbidden(new InvalidParamError('programa inválido'))
       }
       return ok(program)
     } catch (error) {

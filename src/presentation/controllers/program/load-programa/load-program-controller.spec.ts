@@ -51,7 +51,7 @@ describe('LoadProgram Controller', () => {
     const { sut, loadProgramByIdStub } = makeSut()
     jest.spyOn(loadProgramByIdStub, 'loadById').mockResolvedValueOnce(null)
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(forbidden(new InvalidParamError('programId')))
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('programa inválido')))
   })
 
   test('should return 500 if LoadProgramById throws', async () => {
