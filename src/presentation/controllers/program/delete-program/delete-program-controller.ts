@@ -9,7 +9,7 @@ export class DeleteProgramController implements Controller {
     try {
       const program = await this.deleteProgram.delete(httpRequest.params.programId)
       if (!program) {
-        return forbidden(new InvalidParamError('programId'))
+        return forbidden(new InvalidParamError('programa inválido'))
       }
       return noContent()
     } catch (error) {

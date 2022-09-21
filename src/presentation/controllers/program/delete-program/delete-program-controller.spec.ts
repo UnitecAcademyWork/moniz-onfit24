@@ -52,7 +52,7 @@ describe('DeleteProgram Controller', () => {
     const { sut, deleteProgramStub } = makeSut()
     jest.spyOn(deleteProgramStub, 'delete').mockReturnValueOnce(null)
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(forbidden(new InvalidParamError('programId')))
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('programa inválido')))
   })
 
   test('should return 500 if DeleteProgram throws', async () => {
